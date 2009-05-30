@@ -12,9 +12,11 @@ def homepage(request):
 def post(request):
     if request.user.is_anonymous():
         return redirect('/login/')
-    Blast.objects.create(
-        user = request.user,
-        message = request.POST.get('blast', '')
-    )
+    message = request.POST.get('blast', '').strip()
+    if message:
+        Blast.objects.create(
+            user = request.user,
+            message = message
+        )
     return redirect('/')
 

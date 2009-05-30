@@ -1,8 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Bugle{% endblock %}
+{% block title %}{{ user }} on bugle{% endblock %}
 
 {% block content %}
-This is the homepage, {{ user }}
+<form action="/post/" method="POST">
+<textarea name="blast" cols="80" rows="3"></textarea>
+<p><input type="submit" value="Submit"></p>
+</form>
+
+<h2>Recently</h2>
+
+{% for blast in blasts %}
+<div class="blast">
+    {{ blast.message }} - {{ blast.user }} on {{ blast.created|date:"jS F" }} at {{ blast.created|date:"H:i" }}
+</div>
+{% endfor %}
 
 {% endblock %}

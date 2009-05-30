@@ -7,12 +7,6 @@
 
 {% for blast in profile.blasts.all %}
     {% include "_blast.html" %}
-    {% ifequal user profile %}
-    <form action="/delete/" method="POST">
-        <p><input type="hidden" name="id" value="{{ blast.id }}">
-        <input type="submit" value="Delete"></p>
-    </form>
-    {% endifequal %}
 {% endfor %}
 
 {% endblock %}

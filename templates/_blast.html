@@ -4,4 +4,10 @@
     <span class="byline"> - <a href="/{{ blast.user }}/">{{ blast.user }}</a>
     on <span class="created">{{ blast.created|date:"jS F" }} 
     at {{ blast.created|date:"H:i" }}</span>
+    {% if is_own_profile %}
+    <form action="/delete/" method="POST">
+        <input type="hidden" name="id" value="{{ blast.id }}">
+        <input type="submit" value="Delete">
+    </form>
+    {% endif %}
 </div>

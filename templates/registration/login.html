@@ -4,9 +4,8 @@
 
 {% block content %}
 <form action="/login/" method="POST">
-{{ form }}
+{{ form.as_p }}
 <input type="submit">
 </form>
-<p>Or <a href="/account/register/">register</a></p>
 {% endblock %}
 

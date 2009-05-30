@@ -10,6 +10,13 @@ body {
 #content {
     width: 70%;
 }
+#nav {
+    font-size: 0.8em;
+    margin-bottom: 1em;
+}
+#nav a:link, a:visited {
+    color: blue;
+}
 </style>
 <script type="text/javascript">
 window.onload = function() {
@@ -18,7 +25,7 @@ window.onload = function() {
 </script>
 </head>
 <body>
-    <div id="nav"><a href="/">Home</a> | <a href="/logout/">Logout</a></div>
+    <div id="nav">{% if not user.is_anonymous %}<a href="/">Home</a> | Logged in as <strong>{{ user }}</strong> | <a href="/logout/">Logout</a>{% else %}<a href="/login/">Login</a> | <a href="/account/register/">Register</a>{% endif %}</div>
     <div id="content">
 {% block content %}{% endblock %}
     </div>

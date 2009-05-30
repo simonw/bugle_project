@@ -25,6 +25,14 @@ def post(request):
         )
     return redirect('/')
 
+def delete(request):
+    if request.user.is_anonymous():
+        return redirect('/login/')
+    blast = get_object_or_404(Blast, pk = request.POST.get('id', ''))
+    if blast.user == request.user:
+        blast.delete()
+    return redirect('/%s/' % request.user)
+
 def profile(request, username):
     user = get_object_or_404(User, username = username)
     return render(request, 'profile.html', {

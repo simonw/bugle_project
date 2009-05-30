@@ -3,6 +3,11 @@
 {% block title %}{{ user }} on bugle{% endblock %}
 
 {% block extra_head %}
+<script type="text/javascript">
+jQuery(function($) {
+    $('input:first')[0].focus();
+});
+</script>
 {% if autorefresh %}
 <script type="text/javascript">
 jQuery(function($) {
@@ -46,15 +51,7 @@ jQuery(function($) {
     <p>Autorefresh is <strong>off</strong> (<a href="/autorefresh/">turn it on</a>)</p>
 {% endif %}
 <div id="blasts">
-{% for blast in blasts %}
-<div class="blast">
-    <div style="background-color: #{{ blast.colour }};" class="box"></div>
-    <span class="message">{{ blast.message }}</span>
-    <span class="byline"> - <a href="/{{ blast.user }}/">{{ blast.user }}</a>
-    on <span class="created">{{ blast.created|date:"jS F" }} 
-    at {{ blast.created|date:"H:i" }}</span>
-</div>
-{% endfor %}
+    {% for blast in blasts %}{% include "_blast.html" %}{% endfor %}
 </div>
 
 {% endblock %}

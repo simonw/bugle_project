@@ -6,6 +6,9 @@ class Blast(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add = True)
     
+    class Meta:
+        ordering = ('-created',)
+    
     def colour(self):
         return md5.new(str(self.user)).hexdigest()[:6]
     

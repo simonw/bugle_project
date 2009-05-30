@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user }} on bugle{% endblock %}
+{% block title %}{{ profile }} on bugle{% endblock %}
 
 {% block content %}
 <h2>Their blasts</h2>
 
-{% for blast in user.blasts.all %}
-<div class="blast" style="clear: both; padding-bottom: 12px">
-    <div style="background-color: #{{ blast.colour }}; width: 25px; height: 25px; float: left; margin-right: 3px"></div> {{ blast.message }} - <a href="/{{ blast.user }}/">{{ blast.user }}</a> on {{ blast.created|date:"jS F" }} at {{ blast.created|date:"H:i" }}
-</div>
+{% for blast in profile.blasts.all %}
+    {% include "_blast.html" %}
+    {% ifequal user profile %}
+    <form action="/delete/" method="POST">
+        <p><input type="hidden" name="id" value="{{ blast.id }}">
+        <input type="submit" value="Delete"></p>
+    </form>
+    {% endifequal %}
 {% endfor %}
 
 {% endblock %}

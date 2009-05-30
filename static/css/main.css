@@ -421,7 +421,7 @@ div.avatar {
 /* @group Blast Form */
 form.blast input[type='text'] {
 	background-color: white;
-	padding: 4px;
+	padding: 10px;
 }
 form.blast .submit {
 	background-color: #27649F;

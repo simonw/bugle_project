@@ -1,0 +1,7 @@
+<div class="blast">
+    <div style="background-color: #{{ blast.colour }};" class="box"></div>
+    <span class="message">{{ blast.message }}</span>
+    <span class="byline"> - <a href="/{{ blast.user }}/">{{ blast.user }}</a>
+    on <span class="created">{{ blast.created|date:"jS F" }} 
+    at {{ blast.created|date:"H:i" }}</span>
+</div>

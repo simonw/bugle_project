@@ -3,8 +3,24 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}
+<style type="text/css">
+body {
+    font-family: georgia, serif;
+}
+#content {
+    width: 70%;
+}
+</style>
+<script type="text/javascript">
+window.onload = function() {
+    document.getElementsByTagName('input')[0].focus();
+}
+</script>
 </head>
 <body>
+    <div id="nav"><a href="/">Home</a> | <a href="/logout/">Logout</a></div>
+    <div id="content">
 {% block content %}{% endblock %}
+    </div>
 </body>
 </html>

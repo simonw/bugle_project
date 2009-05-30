@@ -11,4 +11,7 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
     
     (r'^admin/', include(admin.site.urls)),
+
+    (r'^([a-zA-Z0-9]+)/$', 'bugle.views.profile'),
+
 )

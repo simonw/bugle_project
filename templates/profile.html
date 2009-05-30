@@ -3,14 +3,9 @@
 {% block title %}{{ user }} on bugle{% endblock %}
 
 {% block content %}
-<form action="/post/" method="POST">
-<input type="text" name="blast" size="80" style="width: 90%; padding: 5px; border: 1px solid #666">
-<p><input type="submit" value="Submit"></p>
-</form>
+<h2>Their blasts</h2>
 
-<h2>Recently</h2>
-
-{% for blast in blasts %}
+{% for blast in user.blasts.all %}
 <div class="blast" style="clear: both; padding-bottom: 12px">
     <div style="background-color: #{{ blast.colour }}; width: 25px; height: 25px; float: left; margin-right: 3px"></div> {{ blast.message }} - <a href="/{{ blast.user }}/">{{ blast.user }}</a> on {{ blast.created|date:"jS F" }} at {{ blast.created|date:"H:i" }}
 </div>

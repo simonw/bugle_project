@@ -2,6 +2,37 @@
 
 {% block title %}{{ user }} on bugle{% endblock %}
 
+{% block extra_head %}
+{% if autorefresh %}
+<script type="text/javascript">
+jQuery(function($) {
+    var last_id = {{ blasts.0.id }};
+    function refresh() {
+        $.getJSON('/autorefresh/since/?id=' + last_id, function(obj) {
+            var divs_to_add = [];
+            $.each(obj, function() {
+                last_id = this.id;
+                var div = $('#blasts .blast:first').clone();
+                div.find('div.box').css({
+                    'background-color': this.colour
+                });
+                div.find('.message').text(this.message);
+                div.find('.byline a').text(this.user).attr(
+                    'href', '/' + this.user + '/'
+                );
+                div.find('.created').text(this.date + ' at ' + this.time);
+                div.hide();
+                $('#blasts').prepend(div);
+                div.slideDown();
+            })
+        });
+    }
+    setInterval(refresh, 2000);
+});
+</script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <form action="/post/" method="POST">
 <input type="text" name="blast" size="80" style="width: 90%; padding: 5px; border: 1px solid #666">
@@ -9,11 +40,21 @@
 </form>
 
 <h2>Recently</h2>
-
+{% if autorefresh %}
+    <p>Autorefresh is <strong>on</strong> (<a href="/">turn it off</a>)</p>
+{% else %}
+    <p>Autorefresh is <strong>off</strong> (<a href="/autorefresh/">turn it on</a>)</p>
+{% endif %}
+<div id="blasts">
 {% for blast in blasts %}
-<div class="blast" style="clear: both; padding-bottom: 12px">
-    <div style="background-color: #{{ blast.colour }}; width: 25px; height: 25px; float: left; margin-right: 3px"></div> {{ blast.message }} - <a href="/{{ blast.user }}/">{{ blast.user }}</a> on {{ blast.created|date:"jS F" }} at {{ blast.created|date:"H:i" }}
+<div class="blast">
+    <div style="background-color: #{{ blast.colour }};" class="box"></div>
+    <span class="message">{{ blast.message }}</span>
+    <span class="byline"> - <a href="/{{ blast.user }}/">{{ blast.user }}</a>
+    on <span class="created">{{ blast.created|date:"jS F" }} 
+    at {{ blast.created|date:"H:i" }}</span>
 </div>
 {% endfor %}
+</div>
 
 {% endblock %}

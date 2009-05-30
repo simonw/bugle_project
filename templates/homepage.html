@@ -39,9 +39,11 @@ jQuery(function($) {
 {% endblock %}
 
 {% block content %}
-<form action="/post/" method="POST">
-<input type="text" name="blast" size="80" style="width: 90%; padding: 5px; border: 1px solid #666">
-<p><input type="submit" value="Submit"></p>
+<form action="/post/" method="post" class="blast">
+	<div class="container">
+		<input type="text" name="blast" size="80" style="width: 90%; padding: 5px; border: 1px solid #666">
+		<input type="submit" class="submit" value="Blast!">
+	</div>
 </form>
 
 <h2>Recently</h2>

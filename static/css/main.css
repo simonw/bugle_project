@@ -397,9 +397,39 @@ button.link {
 }
 
 #nav {
-    font-size: 0.8em;
+	font-size: 0.8em;
+	
     margin-bottom: 1em;
+    margin-left: 1.25em;
+    color: white;
 }
+
+#nav strong {
+	font-style: italic;
+}
+
+#nav a:link,
+#nav a:visited,
+#nav a:hover,
+#nav a:active,
+#nav a:focus {
+	color: white;
+	background: none;
+	text-decoration: none;
+	border-bottom: 1px solid;
+}
+
+#nav a:hover,
+#nav a:active,
+#nav a:focus {
+	border-bottom-style: dotted;
+}
+
+
+/* @end */
+/* @group Page Components */
+
+/* @group Blast */
 
 div.blast {
      clear: both;
@@ -414,14 +444,45 @@ div.avatar {
     margin-right: 0.5em;
 }
 
+.byline {
+	font-size: 0.8em;
+	color: #666;
+	white-space: nowrap;
+}
 
 /* @end */
-/* @group Page Components */
+
+/* @group Meta */
+
+p.meta {
+	margin: 0 0 2em 0;
+	font-size: 0.8em;
+	color: #27649F;
+}
+
+/* @end */
 
 /* @group Blast Form */
+form.blast {
+	margin-bottom: 0;
+	font-size: 1.5em;
+	width: 100%;
+	overflow: hidden;
+}
+
 form.blast input[type='text'] {
+	background-color: #C6E2FD;
+	padding:0.4em 0.5em 0.3em;
+	line-height: 1.5;
+	vertical-align: middle;
+	width: 86%;
+	float: left;
+	border: 1px solid #27649F;
+}
+
+form.blast input[type='text']:focus {
+	outline: none;
 	background-color: white;
-	padding: 10px;
 }
 form.blast .submit {
 	background-color: #27649F;
@@ -430,8 +491,15 @@ form.blast .submit {
 	-webkit-border-top-right-radius:60px;
 	border-radius: 0 60px 0 0;
 	color: white;
-	padding: 4px;
+	padding: 0.2em 2% 0.2em 1%;
+	float: right;
+	width: 10%;
 }
+
+form.blast .container {
+	margin-bottom: 0;
+}
+
 
 
 /* @end */

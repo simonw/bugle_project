@@ -41,16 +41,14 @@ jQuery(function($) {
 {% block content %}
 <form action="/post/" method="post" class="blast">
 	<div class="container">
-		<input type="text" name="blast" size="80" style="width: 90%; padding: 5px; border: 1px solid #666">
+		<input type="text" name="blast">
 		<input type="submit" class="submit" value="Blast!">
 	</div>
 </form>
-
-<h2>Recently</h2>
 {% if autorefresh %}
-    <p>Autorefresh is <strong>on</strong> (<a href="/">turn it off</a>)</p>
+    <p class="meta">Autorefresh is <strong>on</strong> (<a href="/">turn it off</a>)</p>
 {% else %}
-    <p>Autorefresh is <strong>off</strong> (<a href="/autorefresh/">turn it on</a>)</p>
+    <p class="meta">Autorefresh is <strong>off</strong> (<a href="/autorefresh/">turn it on</a>)</p>
 {% endif %}
 <div id="blasts">
     {% for blast in blasts %}{% include "_blast.html" %}{% endfor %}

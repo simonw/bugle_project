@@ -9,13 +9,13 @@
 {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <div id="nav">
+    <p id="nav">
 		{% if not user.is_anonymous %}
-			<a href="/">Home</a> | Logged in as <strong>{{ user }}</strong> | <a href="/logout/">Logout</a>
+			You are logged in as <strong>{{ user }}</strong>, do you want to <a href="/logout/">logout</a> or go <a href="/">home</a>?
 		{% else %}
-			<a href="/login/">Login</a> | <a href="/account/register/">Register</a>
+			Would you like to <a href="/login/">login</a>, <a href="/account/register/">register</a> or go <a href="/">home</a>?
 		{% endif %}
-	</div>
+	</p>
 	
     <div id="content">
 		{% block content %}{% endblock %}

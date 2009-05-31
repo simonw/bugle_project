@@ -59,23 +59,29 @@ body {
 	margin: 0 auto;
 	padding: 40px 0 70px 0;
 	background: #C97E21;
-	color:#000;    font-size:14px;    line-height:1.5em; /* Baseline grid of 21px */}
+	color:#000;
+    font-size:14px;
+    line-height:1.5em; /* Baseline grid of 21px */
+}
 
 a:link, 
 button.link span {
 	color: #0063DC;
 	text-decoration: underline;
-}a:visited {
+}
+a:visited {
 	color: #1057ae;
 	text-decoration: underline;
-}a:hover, 
+}
+a:hover, 
 a:focus,
 button.link:hover,
 button.link:focus span {
 	color: #FFFFFF; 
 	text-decoration: none;
 	background-color: #0063DC;
-}a:active, 
+}
+a:active, 
 button.link:active span {
 	color: #FFFFFF; 
 	text-decoration: none; 
@@ -433,15 +439,19 @@ button.link {
 
 div.blast {
      clear: both;
-     padding-bottom: 12px;
+     padding-bottom: 1em;
      overflow: hidden;
+}
+div.first-on-day {
+     border-bottom: 2px solid black;
+     margin-bottom: 1em;
 }
 
 div.avatar {
     width: 3em;
     height: 3em;
     float: left;
-    margin-right: 0.5em;
+    margin-right: 0.8em;
 }
 
 .byline {
@@ -491,7 +501,7 @@ form.blast .submit {
 	-webkit-border-top-right-radius:60px;
 	border-radius: 0 60px 0 0;
 	color: white;
-	padding: 0.2em 2% 0.2em 1%;
+	padding:0.2em 0.5em 0.25em;
 	float: right;
 	width: 10%;
 }

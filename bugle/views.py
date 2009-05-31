@@ -51,4 +51,5 @@ def since(request):
         'time': dateformat.format(b.created, 'H:i'),
         'colour': '#' + b.colour(),
         'id': b.id,
+        'first_on_day': b.first_on_day(),
     } for b in blasts]), content_type = 'text/plain')

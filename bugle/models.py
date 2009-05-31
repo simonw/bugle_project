@@ -6,6 +6,14 @@ class Blast(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add = True)
     
+    def first_on_day(self):
+        on_same_day = Blast.objects.filter(
+            created__day = self.created.day,
+            created__month = self.created.month,
+            created__year = self.created.year,
+        )
+        return on_same_day.filter(created__lt = self.created).count() == 0
+    
     class Meta:
         ordering = ('-created',)
     

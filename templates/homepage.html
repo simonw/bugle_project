@@ -18,6 +18,11 @@ jQuery(function($) {
             $.each(obj, function() {
                 last_id = this.id;
                 var div = $('#blasts .blast:first').clone();
+                if (this.first_on_day) {
+                    div.addClass('first-on-day');
+                } else {
+                    div.removeClass('first-on-day');
+                }
                 div.find('div.box').css({
                     'background-color': this.colour
                 });

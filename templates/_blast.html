@@ -1,4 +1,4 @@
-<div class="blast">
+<div class="blast{% if blast.first_on_day %} first-on-day{% endif %}">
     <div style="background-color: #{{ blast.colour }};" class="avatar"></div>
     <span class="message">{{ blast.message }}</span>
     <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>

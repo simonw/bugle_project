@@ -49,9 +49,11 @@ def post_api(request):
 def delete(request):
     if request.user.is_anonymous():
         return redirect('/login/')
+    
     blast = get_object_or_404(Blast, pk = request.POST.get('id', ''))
     if blast.user == request.user:
         blast.delete()
+    
     return redirect('/%s/' % request.user)
 
 def profile(request, username):

@@ -26,6 +26,23 @@ def post(request):
         )
     return redirect('/')
 
+def post_api(request):
+    username = request.POST.get('username', '')
+    try:
+        user = User.objects.get(username = username)
+    except User.DoesNotExist:
+        return HttpResponse('Invalid username')
+    if not user.check_password(request.POST.get('password', '')):
+        return HttpResponse('Invalid password')
+    message = request.POST.get('message', '').strip()
+    if not message:
+        return HttpResponse('Invalid message')
+    Blast.objects.create(
+        user = user,
+        message = message
+    )
+    return HttpResponse('Message saved')
+
 def delete(request):
     if request.user.is_anonymous():
         return redirect('/login/')

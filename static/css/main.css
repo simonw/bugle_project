@@ -443,7 +443,7 @@ div.blast {
      overflow: hidden;
 }
 div.first-on-day {
-     border-bottom: 2px solid black;
+     border-bottom: 1px dotted #5697D5;
      margin-bottom: 1em;
 }
 

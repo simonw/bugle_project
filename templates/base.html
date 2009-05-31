@@ -11,7 +11,7 @@
 <body>
     <p id="nav">
 		{% if not user.is_anonymous %}
-			You are logged in as <strong>{{ user }}</strong>, do you want to <a href="/logout/">logout</a> or go <a href="/">home</a>?
+			You are logged in as <strong><a href="/{{ user }}/">{{ user }}</a></strong>, do you want to <a href="/logout/">logout</a> or go <a href="/">home</a>?
 		{% else %}
 			Would you like to <a href="/login/">login</a>, <a href="/account/register/">register</a> or go <a href="/">home</a>?
 		{% endif %}

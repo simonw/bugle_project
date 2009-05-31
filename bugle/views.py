@@ -3,6 +3,7 @@ from models import Blast
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils import dateformat
+from django.template import Template, Context
 import simplejson
 
 def homepage(request, autorefresh=False):
@@ -48,12 +49,16 @@ def mentions(request, username):
         'blasts': blasts,
     })
 
+message_template = Template("{% load bugle %}{{ msg|urlize|buglise }}")
+
 def since(request):
     id = request.GET.get('id', 0)
     blasts = Blast.objects.filter(id__gt = id).order_by('-created')
     return HttpResponse(simplejson.dumps([{
         'user': str(b.user),
-        'message': b.message,
+        'message': message_template.render(Context({
+            'msg': b.message,
+        })),
         'created': str(b.created),
         'date': dateformat.format(b.created, 'jS F'),
         'time': dateformat.format(b.created, 'H:i'),

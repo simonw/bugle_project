@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 import sys, os
 
+try:
+    import local_manage
+except ImportError:
+    pass
+
 sys.path.append(
     os.path.join(
         os.path.realpath(os.path.dirname(__file__)), 'ext'

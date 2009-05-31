@@ -40,6 +40,14 @@ def profile(request, username):
         'is_own_profile': user == request.user
     })
 
+def mentions(request, username):
+    user = get_object_or_404(User, username = username)
+    blasts = Blast.objects.filter(message__contains = '@' + username)
+    return render(request, 'mentions.html', {
+        'profile': user,
+        'blasts': blasts,
+    })
+
 def since(request):
     id = request.GET.get('id', 0)
     blasts = Blast.objects.filter(id__gt = id).order_by('-created')

@@ -22,4 +22,5 @@ urlpatterns = patterns('',
     }),
     
     (r'^([a-zA-Z0-9]+)/$', 'bugle.views.profile'),
+    (r'^([a-zA-Z0-9]+)/mentions/$', 'bugle.views.mentions'),
 )

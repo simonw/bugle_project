@@ -3,9 +3,11 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<form action="/login/" method="POST">
-{{ form.as_p }}
-<input type="submit">
+<form action="/login/" method="post">
+	{{ form.as_p }}
+	<div class="button-container">
+		<button>Give me my bugle</button>
+	</div>
 </form>
 {% endblock %}
 

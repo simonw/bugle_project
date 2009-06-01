@@ -1,14 +1,16 @@
 {% load bugle %}
-<div class="blast{% if blast.first_on_day %} first-on-day{% endif %}">
-    <div style="background-color: #{{ blast.colour }};" class="avatar"></div>
-    <span class="message">{{ blast.message|urlize|buglise }}</span>
-    <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>
-    on <span class="created">{{ blast.created|date:"jS F" }} 
-    at {{ blast.created|date:"H:i" }}</span>
-    {% if is_own_profile %}
-    <form action="/delete/" method="post">
-        <div><input type="hidden" name="id" value="{{ blast.id }}">
-        <input type="submit" value="delete"></div>
-    </form>
-    {% endif %}
+<div class="blast {% if blast.first_on_day %}first-on-day{% endif %}">
+	{% if blast.first_on_day %}<div class="inner">{% endif %}
+	    <div style="background-color: #{{ blast.colour }};" class="avatar"></div>
+	    <span class="message">{{ blast.message|urlize|buglise }}</span>
+	    <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>
+	    on <span class="created">{{ blast.created|date:"jS F" }} 
+	    at {{ blast.created|date:"H:i" }}</span>
+	    {% if is_own_profile %}
+	    <form action="/delete/" method="post">
+	        <div><input type="hidden" name="id" value="{{ blast.id }}">
+	        <input type="submit" value="delete"></div>
+	    </form>
+	    {% endif %}
+	{% if blast.first_on_day %}</div>{% endif %}
 </div>

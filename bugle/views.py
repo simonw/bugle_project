@@ -7,9 +7,6 @@ from django.template import Template, Context
 import simplejson
 
 def homepage(request, autorefresh=False):
-    if request.user.is_anonymous():
-        return redirect('/login/')
-    
     return render(request, 'homepage.html', {
         'blasts': Blast.objects.all().order_by('-created')[:30],
         'autorefresh': autorefresh,

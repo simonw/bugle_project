@@ -44,12 +44,14 @@ jQuery(function($) {
 {% endblock %}
 
 {% block content %}
+{% if not user.is_anonymous %}
 <form action="/post/" method="post" class="blast">
 	<div class="container">
 		<input type="text" name="blast">
 		<input type="submit" class="submit" value="Blast!">
 	</div>
 </form>
+{% endif %}
 {% if autorefresh %}
     <p class="meta">Autorefresh is <strong>on</strong> (<a href="/">turn it off</a>)</p>
 {% else %}

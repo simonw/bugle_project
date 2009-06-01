@@ -531,7 +531,21 @@ form.blast .container {
 	margin-bottom: 0;
 }
 
-
+form.blast div#extended {
+	clear: both;
+}
+form.blast div#extended textarea {
+	background-color: #C6E2FD;
+	padding:0.8em 1em 0.6em;
+	line-height: 1.5;
+	vertical-align: middle;
+	width: 70%;
+	float: left;
+	border: 1px solid #27649F;
+	font-family: courier;
+	font-size: 0.5em;
+	height: 15em;
+}
 
 /* @end */
 
@@ -542,3 +556,8 @@ form.blast .container {
 
 /* @end */
 
+pre.extended {
+	margin-top: 2em;
+	width: 90%;
+	overflow: auto;
+}

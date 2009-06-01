@@ -2,7 +2,7 @@
 <div class="blast {% if blast.first_on_day %}first-on-day{% endif %}">
 	{% if blast.first_on_day %}<div class="inner">{% endif %}
 	    <div style="background-color: #{{ blast.colour }};" class="avatar"></div>
-	    <span class="message">{{ blast.message|urlize|buglise }}</span>
+	    <span class="message">{{ blast.message|urlize|buglise }}</span>{% if blast.extended %} <a href="/blast/{{ blast.pk }}/">(view full blast)</a>{% endif %}
 	    <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>
 	    on <span class="created">{{ blast.created|date:"jS F" }} 
 	    at {{ blast.created|date:"H:i" }}</span>

@@ -22,6 +22,11 @@ def all(request):
         'autorefresh': False,
     })
 
+def blast(request, pk):
+    return render(request, 'blast.html', {
+        'blast': get_object_or_404(Blast, pk = pk),
+    })
+
 def post(request):
     if request.user.is_anonymous():
         return redirect('/login/')
@@ -29,7 +34,8 @@ def post(request):
     if message:
         Blast.objects.create(
             user = request.user,
-            message = message
+            message = message,
+            extended = request.POST.get('extended', ''),
         )
     return redirect('/')
 
@@ -49,7 +55,8 @@ def post_api(request):
     
     Blast.objects.create(
         user = user,
-        message = message
+        message = message,
+        extended = request.POST.get('extended', ''),
     )
     return HttpResponse('Message saved')
 

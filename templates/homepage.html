@@ -6,6 +6,18 @@
 <script type="text/javascript">
 jQuery(function($) {
     $('input:first')[0].focus();
+    $('#extended').hide();
+    var a = $('<a href="#">Include some code</a>');
+    a.toggle(function() {
+        $('#extended').show();
+        return false;
+    }, function() {
+        $('#extended textarea').val('');
+        $('#extended').hide();
+        return false;
+    });
+    $('p.meta:first').append(' &middot; ');
+    $('p.meta:first').append(a);
 });
 </script>
 {% if autorefresh %}
@@ -49,6 +61,7 @@ jQuery(function($) {
 	<div class="container">
 		<input type="text" name="blast">
 		<input type="submit" class="submit" value="Blast!">
+		<div id="extended"><textarea name="extended"></textarea></div>
 	</div>
 </form>
 {% endif %}

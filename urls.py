@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^$', 'bugle.views.homepage'),
     (r'^all/$', 'bugle.views.all'),
+    (r'^blast/(\d+)/$', 'bugle.views.blast'),
     (r'^autorefresh/$', 'bugle.views.homepage', {'autorefresh': True}),
     (r'^autorefresh/since/$', 'bugle.views.since'),
     (r'^post/$', 'bugle.views.post'),

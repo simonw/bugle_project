@@ -5,6 +5,7 @@ class Blast(models.Model):
     user = models.ForeignKey('auth.User', related_name = 'blasts')
     message = models.TextField()
     created = models.DateTimeField(auto_now_add = True)
+    extended = models.TextField(blank = True, null = True)
     
     def first_on_day(self):
         on_same_day = Blast.objects.filter(

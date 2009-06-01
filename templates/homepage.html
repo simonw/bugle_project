@@ -60,5 +60,8 @@ jQuery(function($) {
 <div id="blasts">
     {% for blast in blasts %}{% include "_blast.html" %}{% endfor %}
 </div>
+{% if more_blasts %}
+<p><a href="/all">All blasts</a></p>
+{% endif %}
 
 {% endblock %}

@@ -6,10 +6,20 @@ from django.utils import dateformat
 from django.template import Template, Context
 import simplejson
 
+NUM_ON_HOMEPAGE = 50
+
 def homepage(request, autorefresh=False):
     return render(request, 'homepage.html', {
-        'blasts': Blast.objects.all().order_by('-created')[:30],
+        'blasts': Blast.objects.all().order_by('-created')[:NUM_ON_HOMEPAGE],
+        'more_blasts': Blast.objects.count() > NUM_ON_HOMEPAGE,
         'autorefresh': autorefresh,
+    })
+
+def all(request):
+    return render(request, 'homepage.html', {
+        'blasts': Blast.objects.all().order_by('-created'),
+        'more_blasts': False,
+        'autorefresh': False,
     })
 
 def post(request):

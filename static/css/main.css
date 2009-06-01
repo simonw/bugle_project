@@ -524,6 +524,7 @@ form.blast .submit {
 	width: 4em;
 	text-align: center;
 	overflow: visible;
+	cursor: pointer;
 }
 
 form.blast .container {

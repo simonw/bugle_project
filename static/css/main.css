@@ -547,6 +547,13 @@ form.blast div#extended textarea {
 	height: 15em;
 }
 
+form.donebox div, form.donebox {
+	display: inline;
+}
+form.donebox input {
+	vertical-align: middle;
+}
+
 /* @end */
 
 

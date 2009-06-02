@@ -13,11 +13,11 @@
 </ol>
 
 <h2>Blasts on dates</h2>
-<ol>
+<ul>
 {% for d in top_dates %}
     <li>{{ d.0|date:"jS F Y" }} - {{ d.1 }} blast{{ d.1|pluralize }}</li>
 {% endfor %}
-</ol>
+</ul>
 
 {% endblock %}
 

@@ -111,7 +111,7 @@ def stats(request):
         d = date.date()
         date_counts[d] = date_counts.get(d, 0) + 1
     top_dates = date_counts.items()
-    top_dates.sort(key = lambda x: x[1], reverse=True)
+    top_dates.sort(key = lambda x: x[0])
     return render(request, 'stats.html', {
         'top_users': User.objects.annotate(
             num_blasts = Count('blasts')

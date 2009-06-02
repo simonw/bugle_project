@@ -81,3 +81,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'bugle',
 )
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
+

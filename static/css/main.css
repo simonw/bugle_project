@@ -554,6 +554,10 @@ form.donebox input {
 	vertical-align: middle;
 }
 
+form.deleteform, form.deleteform div, form.deleteform input {
+	display: inline;
+}
+
 /* @end */
 
 

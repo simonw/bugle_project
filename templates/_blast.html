@@ -8,7 +8,7 @@
 	    on <span class="created">{{ blast.created|date:"jS F" }} 
 	    at {{ blast.created|date:"H:i" }}</span>
 	    {% if is_own_profile %}
-	    <form action="/delete/" method="post">
+	    <form action="/delete/" method="post" class="deleteform">
 	        <div><input type="hidden" name="id" value="{{ blast.id }}">
 	        <input type="submit" value="delete"></div>
 	    </form>

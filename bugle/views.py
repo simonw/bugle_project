@@ -125,7 +125,10 @@ def toggle(request):
     key = request.POST.keys()[0].split('.')[0]
     # key will now be uncheck-45 or check-23
     verb, pk = key.split('-')
-    blast = get_object_or_404(Blast, pk = pk, user = request.user)
+    try:
+        blast = get_object_or_404(Blast, pk = pk, user = request.user)
+    except Blast.DoesNotExist:
+        return HttpResponse("You can't mess with other people's tasks")
     if verb == 'check':
         blast.done = True
     if verb == 'uncheck':

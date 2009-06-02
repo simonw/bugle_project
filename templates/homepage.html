@@ -68,7 +68,7 @@ jQuery(function($) {
 {% if autorefresh %}
     <p class="meta">Autorefresh is <strong>on</strong> (<a href="/">turn it off</a>)</p>
 {% else %}
-    <p class="meta">Autorefresh is <strong>off</strong> (<a href="/autorefresh/">turn it on</a>)</p>
+    <p class="meta">Autorefresh is <strong>disabled</strong><!-- (<a href="/autorefresh/">turn it on</a>)--></p>
 {% endif %}
 <div id="blasts">
     {% for blast in blasts %}{% include "_blast.html" %}{% endfor %}

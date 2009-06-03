@@ -178,7 +178,7 @@ def stats(request):
 def toggle(request):
     if request.user.is_anonymous():
         return redirect('/login/')
-    key = request.POST.keys()[0].split('.')[0]
+    key = [k for k in request.POST.keys() if 'check' in k][0].split('.')[0]
     # key will now be uncheck-45 or check-23
     verb, pk = key.split('-')
     blast = get_object_or_404(Blast, pk = pk)
@@ -191,4 +191,4 @@ def toggle(request):
     if verb == 'uncheck':
         blast.done = False
     blast.save()
-    return redirect('/')
+    return redirect(request.POST.get('back_to', '') or '/')

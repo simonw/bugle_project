@@ -40,19 +40,11 @@ class Blast(models.Model):
         ]
         return User.objects.filter(username__in = usernames)
     
-    def checkbox(self):
-        return mark_safe(
-        '''<form action="/toggle/" method="POST" class="donebox">
-        <div>
-            <input type="image" src="/static/img/%(img)s.png"
-                name="%(verb)s-%(pk)s" alt="%(img)s">
-            </div>
-        </form>
-        ''' % {
-            'img': self.done and 'checked' or 'unchecked',
-            'pk': self.pk,
-            'verb': self.done and 'uncheck' or 'check',
-        })
+    def checkbox_img_name(self):
+        return self.done and 'checked' or 'unchecked'
+    
+    def checkbox_verb(self):
+        return self.done and 'uncheck' or 'check'
     
     def checkbox_img(self):
         return mark_safe(

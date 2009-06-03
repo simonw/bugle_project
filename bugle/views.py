@@ -129,7 +129,7 @@ def todos(request, username):
     user = get_object_or_404(User, username = username)
     blasts = Blast.objects.filter(is_todo = True).filter(
         Q(user = user) | Q(mentioned_users = user)
-    )
+    ).distinct()
     return render(request, 'todos.html', {
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),

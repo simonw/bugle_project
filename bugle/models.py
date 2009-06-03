@@ -16,6 +16,21 @@ class Blast(models.Model):
     mentioned_users = models.ManyToManyField(User, related_name='mentions')
     favourited_by = models.ManyToManyField(User, related_name='favourites')
     
+    def viewing_user(self):
+        """We often need to make template decisions based on the user VIEWING
+        the blast"""
+        return getattr(self, '_viewing_user', None)
+    
+    def set_viewing_user(self, user):
+        self._viewing_user = user
+    
+    def viewing_user_is_owner(self):
+        return self.viewing_user() == self.user
+    
+    def viewing_user_can_mark_done(self):
+        allowed = [self.user] + list(self.mentioned_users.all())
+        return self.viewing_user() in allowed
+    
     def derive_mentioned_users(self, message=None):
         "Figure out mentioned users just from the message text"
         if message is None:
@@ -39,6 +54,12 @@ class Blast(models.Model):
             'verb': self.done and 'uncheck' or 'check',
         })
     
+    def checkbox_img(self):
+        return mark_safe(
+        '<img src="/static/img/%(img)s.png" alt="%(img)s">' % {
+            'img': self.done and 'checked' or 'unchecked',
+        })
+        
     def derive_is_todo(self):
         return todo_re.match(self.message) is not None
     

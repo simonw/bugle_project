@@ -5,7 +5,7 @@
 {% block content %}
 <h2>Their blasts / <a href="/{{ profile }}/mentions/">their mentions</a></h2>
 
-{% for blast in profile.blasts.all %}
+{% for blast in blasts %}
     {% include "_blast.html" %}
 {% endfor %}
 

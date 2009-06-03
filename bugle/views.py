@@ -6,26 +6,40 @@ from django.utils import dateformat
 from django.template import Template, Context
 from django.db.models import Count
 import simplejson
+from django.db.models import Q
 
 NUM_ON_HOMEPAGE = 50
 
+def prepare_blasts(blasts, user=None):
+    blasts = list(blasts)
+    for blast in blasts:
+        blast.set_viewing_user(user)
+    return blasts
+
 def homepage(request, autorefresh=False):
     return render(request, 'homepage.html', {
-        'blasts': Blast.objects.all().order_by('-created')[:NUM_ON_HOMEPAGE],
+        'blasts': prepare_blasts(
+            Blast.objects.all().order_by('-created')[:NUM_ON_HOMEPAGE],
+            request.user
+        ),
         'more_blasts': Blast.objects.count() > NUM_ON_HOMEPAGE,
         'autorefresh': autorefresh,
     })
 
 def all(request):
     return render(request, 'homepage.html', {
-        'blasts': Blast.objects.all().order_by('-created'),
+        'blasts': prepare_blasts(
+            Blast.objects.all().order_by('-created'), request.user
+        ),
         'more_blasts': False,
         'autorefresh': False,
     })
 
 def blast(request, pk):
     return render(request, 'blast.html', {
-        'blast': get_object_or_404(Blast, pk = pk),
+        'blast': prepare_blasts(
+            [get_object_or_404(Blast, pk = pk)], request.user
+        )[0],
     })
 
 def post(request):
@@ -75,7 +89,8 @@ def profile(request, username):
     user = get_object_or_404(User, username = username)
     return render(request, 'profile.html', {
         'profile': user,
-        'is_own_profile': user == request.user
+        'blasts': prepare_blasts(user.blasts.all(), request.user),
+        'show_delete': request.user == user,
     })
 
 def mentions(request, username):
@@ -83,12 +98,15 @@ def mentions(request, username):
     blasts = user.mentions.all()
     return render(request, 'mentions.html', {
         'profile': user,
-        'blasts': blasts,
+        'blasts': prepare_blasts(blasts, request.user),
     })
 
 def all_mentions(request):
     return render(request, 'all_mentions.html', {
-        'blasts': Blast.objects.filter(mentioned_users__isnull = False),
+        'blasts': prepare_blasts(
+            Blast.objects.filter(mentioned_users__isnull = False),
+            request.user
+        )
     })
 
 def pastes(request, username):
@@ -96,25 +114,32 @@ def pastes(request, username):
     blasts = user.blasts.exclude(extended = None).exclude(extended = '')
     return render(request, 'pastes.html', {
         'profile': user,
-        'blasts': blasts,
+        'blasts': prepare_blasts(blasts, request.user),
     })
 
 def all_pastes(request):
     return render(request, 'all_pastes.html', {
-        'blasts': Blast.objects.exclude(extended=None).exclude(extended=''),
+        'blasts': prepare_blasts(
+            Blast.objects.exclude(extended=None).exclude(extended=''),
+            request.user
+        )
     })
 
 def todos(request, username):
     user = get_object_or_404(User, username = username)
-    blasts = user.blasts.filter(is_todo = True)
+    blasts = Blast.objects.filter(is_todo = True).filter(
+        Q(user = user) | Q(mentioned_users = user)
+    )
     return render(request, 'todos.html', {
         'profile': user,
-        'blasts': blasts,
+        'blasts': prepare_blasts(blasts, request.user),
     })
 
 def all_todos(request):
     return render(request, 'all_todos.html', {
-        'blasts': Blast.objects.filter(is_todo = True)
+        'blasts': prepare_blasts(
+            Blast.objects.filter(is_todo = True), request.user
+        )
     })
 
 message_template = Template("{% load bugle %}{{ msg|urlize|buglise }}")
@@ -156,10 +181,11 @@ def toggle(request):
     key = request.POST.keys()[0].split('.')[0]
     # key will now be uncheck-45 or check-23
     verb, pk = key.split('-')
-    try:
-        blast = get_object_or_404(Blast, pk = pk, user = request.user)
-    except Blast.DoesNotExist:
-        return HttpResponse("You can't mess with other people's tasks")
+    blast = get_object_or_404(Blast, pk = pk)
+    # Check the user is allowed to modify this blast
+    blast.set_viewing_user(request.user)
+    if not blast.viewing_user_can_mark_done():
+        return HttpResponse('You are not allowed to check off that task')
     if verb == 'check':
         blast.done = True
     if verb == 'uncheck':

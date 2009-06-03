@@ -460,6 +460,10 @@ div.first-on-day .inner {
      padding-bottom: 1em;
 }
 
+div.done span.message {
+	text-decoration: line-through;
+}
+
 div.avatar {
     width: 1em;
     height: 500em;

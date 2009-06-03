@@ -557,6 +557,9 @@ form.donebox div, form.donebox {
 form.donebox input, img.donebox {
 	vertical-align: middle;
 }
+img.donebox {
+	opacity: 0.5;
+}
 
 form.deleteform, form.deleteform div, form.deleteform input {
 	display: inline;

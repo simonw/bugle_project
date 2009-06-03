@@ -10,6 +10,9 @@ class Blast(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     extended = models.TextField(blank = True, null = True)
     done = models.BooleanField(default = False)
+    mentioned_users = models.ManyToManyField(
+        'auth.User', related_name='mentions'
+    )
     
     def checkbox(self):
         return mark_safe(

@@ -64,7 +64,10 @@ class Blast(models.Model):
         return todo_re.search(self.message) is not None
     
     def message_without_todo(self):
-        return todo_re.sub('', self.message)
+        remove = 'todo:'
+        if self.message.startswith(remove):
+            return self.message[len(remove):]
+        return self.message
     
     def first_on_day(self):
         on_same_day = Blast.objects.filter(

@@ -3,7 +3,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 import md5, re
 
-todo_re = re.compile('^todo:?\s+', re.I)
+todo_re = re.compile(r'\btodo:', re.I)
 username_re = re.compile('@[0-9a-zA-Z]+')
 
 class Blast(models.Model):
@@ -61,7 +61,7 @@ class Blast(models.Model):
         })
         
     def derive_is_todo(self):
-        return todo_re.match(self.message) is not None
+        return todo_re.search(self.message) is not None
     
     def message_without_todo(self):
         return todo_re.sub('', self.message)

@@ -18,10 +18,7 @@ class Command(BaseCommand):
             raise CommandError("Command doesn't accept any arguments")
         
         for blast in Blast.objects.all():
-            usernames = [
-                u.replace('@', '') for u in username_re.findall(blast.message)
-            ]
-            users = User.objects.filter(username__in = usernames)
+            users = blast.derive_mentioned_users()
             blast.mentioned_users.clear()
             for u in users:
                 blast.mentioned_users.add(u)

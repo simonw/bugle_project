@@ -1,18 +1,28 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.contrib.auth.models import User
 import md5, re
 
 todo_re = re.compile('^todo:?\s+', re.I)
+username_re = re.compile('@[0-9a-zA-Z]+')
 
 class Blast(models.Model):
-    user = models.ForeignKey('auth.User', related_name = 'blasts')
+    user = models.ForeignKey(User, related_name = 'blasts')
     message = models.TextField()
     created = models.DateTimeField(auto_now_add = True)
     extended = models.TextField(blank = True, null = True)
     done = models.BooleanField(default = False)
-    mentioned_users = models.ManyToManyField(
-        'auth.User', related_name='mentions'
-    )
+    mentioned_users = models.ManyToManyField(User, related_name='mentions')
+    favourited_by = models.ManyToManyField(User, related_name='favourites')
+    
+    def derive_mentioned_users(self, message=None):
+        "Figure out mentioned users just from the message text"
+        if message is None:
+            message = self.message
+        usernames = [
+            u.replace('@', '') for u in username_re.findall(message)
+        ]
+        return User.objects.filter(username__in = usernames)
     
     def checkbox(self):
         return mark_safe(
@@ -41,6 +51,13 @@ class Blast(models.Model):
             created__year = self.created.year,
         )
         return on_same_day.filter(created__lt = self.created).count() == 0
+    
+    def save(self, *args, **kwargs):
+        super(Blast, self).save(*args, **kwargs)
+        # Update the mentioned users
+        self.mentioned_users.clear()
+        for user in self.derive_mentioned_users():
+            self.mentioned_users.add(user)
     
     class Meta:
         ordering = ('-created',)

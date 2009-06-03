@@ -80,10 +80,28 @@ def profile(request, username):
 
 def mentions(request, username):
     user = get_object_or_404(User, username = username)
-    blasts = Blast.objects.filter(message__contains = '@' + username)
+    blasts = user.mentions.all()
     return render(request, 'mentions.html', {
         'profile': user,
         'blasts': blasts,
+    })
+
+def all_mentions(request):
+    return render(request, 'all_mentions.html', {
+        'blasts': Blast.objects.filter(mentioned_users__isnull = False),
+    })
+
+def pastes(request, username):
+    user = get_object_or_404(User, username = username)
+    blasts = user.blasts.exclude(extended = None).exclude(extended = '')
+    return render(request, 'pastes.html', {
+        'profile': user,
+        'blasts': blasts,
+    })
+
+def all_pastes(request):
+    return render(request, 'all_pastes.html', {
+        'blasts': Blast.objects.exclude(extended=None).exclude(extended=''),
     })
 
 message_template = Template("{% load bugle %}{{ msg|urlize|buglise }}")

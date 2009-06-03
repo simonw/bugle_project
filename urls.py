@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     (r'^all/$', 'bugle.views.all'),
     (r'^toggle/$', 'bugle.views.toggle'),
     (r'^stats/$', 'bugle.views.stats'),
+    (r'^mentions/$', 'bugle.views.all_mentions'),
+    (r'^pastes/$', 'bugle.views.all_pastes'),
     (r'^blast/(\d+)/$', 'bugle.views.blast'),
     #(r'^autorefresh/$', 'bugle.views.homepage', {'autorefresh': True}),
     #(r'^autorefresh/since/$', 'bugle.views.since'),
@@ -28,4 +30,6 @@ urlpatterns = patterns('',
     
     (r'^([a-zA-Z0-9]+)/$', 'bugle.views.profile'),
     (r'^([a-zA-Z0-9]+)/mentions/$', 'bugle.views.mentions'),
+    (r'^([a-zA-Z0-9]+)/pastes/$', 'bugle.views.pastes'),
+
 )

@@ -11,6 +11,7 @@ class Blast(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add = True)
     extended = models.TextField(blank = True, null = True)
+    is_todo = models.BooleanField(default = False)
     done = models.BooleanField(default = False)
     mentioned_users = models.ManyToManyField(User, related_name='mentions')
     favourited_by = models.ManyToManyField(User, related_name='favourites')
@@ -38,8 +39,8 @@ class Blast(models.Model):
             'verb': self.done and 'uncheck' or 'check',
         })
     
-    def is_todo(self):
-        return todo_re.match(self.message)
+    def derive_is_todo(self):
+        return todo_re.match(self.message) is not None
     
     def message_without_todo(self):
         return todo_re.sub('', self.message)
@@ -58,6 +59,10 @@ class Blast(models.Model):
         self.mentioned_users.clear()
         for user in self.derive_mentioned_users():
             self.mentioned_users.add(user)
+        # Is this a todo?
+        if self.derive_is_todo() and not self.is_todo:
+            self.is_todo = True
+            self.save()
     
     class Meta:
         ordering = ('-created',)

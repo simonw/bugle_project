@@ -104,6 +104,19 @@ def all_pastes(request):
         'blasts': Blast.objects.exclude(extended=None).exclude(extended=''),
     })
 
+def todos(request, username):
+    user = get_object_or_404(User, username = username)
+    blasts = user.blasts.filter(is_todo = True)
+    return render(request, 'todos.html', {
+        'profile': user,
+        'blasts': blasts,
+    })
+
+def all_todos(request):
+    return render(request, 'all_todos.html', {
+        'blasts': Blast.objects.filter(is_todo = True)
+    })
+
 message_template = Template("{% load bugle %}{{ msg|urlize|buglise }}")
 
 def since(request):

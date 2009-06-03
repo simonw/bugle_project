@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}All todos on bugle{% endblock %}
+
+{% block content %}
+<h2>All todos</h2>
+
+{% for blast in blasts %}
+    {% include "_blast.html" %}
+{% endfor %}
+
+{% endblock %}

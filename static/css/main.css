@@ -554,7 +554,7 @@ form.blast div#extended textarea {
 form.donebox div, form.donebox {
 	display: inline;
 }
-form.donebox input {
+form.donebox input, img.donebox {
 	vertical-align: middle;
 }
 

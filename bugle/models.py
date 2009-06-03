@@ -56,7 +56,7 @@ class Blast(models.Model):
     
     def checkbox_img(self):
         return mark_safe(
-        '<img src="/static/img/%(img)s.png" alt="%(img)s">' % {
+        '<img src="/static/img/%(img)s.png" alt="%(img)s" class="donebox">'%{
             'img': self.done and 'checked' or 'unchecked',
         })
         

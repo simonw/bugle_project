@@ -98,6 +98,7 @@ def post_api(request):
         user = user,
         message = message,
         extended = request.POST.get('extended', ''),
+        short = request.POST.get('short', ''),
     )
     return HttpResponse('Message saved')
 

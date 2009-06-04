@@ -1,5 +1,4 @@
-{% load bugle %}<div class="blast {% if blast.first_on_day %}first-on-day{% endif %}{% if blast.is_todo %} todo{% endif %}{% if blast.done %} done{% endif %}">
-	{% if blast.first_on_day %}<div class="inner">{% endif %}
+{% load bugle %}<div class="blast{% if blast.is_todo %} todo{% endif %}{% if blast.done %} done{% endif %}">
 	    <div style="background-color: #{{ blast.colour }};" class="avatar"></div>
 	    {% if blast.is_todo %}
 			{% if blast.viewing_user_can_mark_done %}
@@ -33,5 +32,4 @@
 	        <input type="submit" value="delete"></div>
 	    </form>
 	    {% endif %}
-	{% if blast.first_on_day %}</div>{% endif %}
 </div>

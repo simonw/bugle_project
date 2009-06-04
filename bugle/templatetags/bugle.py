@@ -15,6 +15,8 @@ def buglise(s):
         try:
             u = User.objects.get(username = username)
         except User.DoesNotExist:
+            if username.lower() == 'all':
+                return '<strong>@all</strong>'
             return '@' + username
         return '<a href="/%s/">@%s</a>' % (username, username)
     

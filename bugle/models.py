@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 import md5, re
 
 todo_re = re.compile(r'\btodo:', re.I)
+broadcast_re = re.compile(r'@all\b', re.I)
 username_re = re.compile('@[0-9a-zA-Z]+')
 
 class Blast(models.Model):
@@ -13,6 +14,7 @@ class Blast(models.Model):
     extended = models.TextField(blank = True, null = True)
     short = models.CharField(max_length=50, blank = True, null = True)
     is_todo = models.BooleanField(default = False)
+    is_broadcast = models.BooleanField(default = False)
     done = models.BooleanField(default = False)
     mentioned_users = models.ManyToManyField(User, related_name='mentions')
     favourited_by = models.ManyToManyField(User, related_name='favourites')
@@ -33,6 +35,8 @@ class Blast(models.Model):
         return self.viewing_user() == self.user
     
     def viewing_user_can_mark_done(self):
+        if not self.viewing_user().is_anonymous() and self.is_broadcast:
+            return True
         allowed = [self.user] + list(self.mentioned_users.all())
         return self.viewing_user() in allowed
     
@@ -75,6 +79,9 @@ class Blast(models.Model):
     def derive_is_todo(self):
         return todo_re.search(self.message) is not None
     
+    def derive_is_broadcast(self):
+        return broadcast_re.search(self.message) is not None
+    
     def message_without_todo(self):
         remove = 'todo:'
         if self.message.startswith(remove):
@@ -98,6 +105,10 @@ class Blast(models.Model):
         # Is this a todo?
         if self.derive_is_todo() and not self.is_todo:
             self.is_todo = True
+            self.save()
+        # Is this a broadcast?
+        if self.derive_is_broadcast() and not self.is_broadcast:
+            self.is_broadcast = True
             self.save()
     
     class Meta:

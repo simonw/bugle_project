@@ -1,7 +1,7 @@
 from bugle.shortcuts import render, redirect, get_object_or_404
 from models import Blast
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.utils import dateformat
 from django.template import Template, Context
 from django.db.models import Count
@@ -18,6 +18,9 @@ class BlastBundle(object):
     
     def summary(self):
         return ', '.join([b.short for b in self.blasts])
+    
+    def first_on_day(self):
+        return len([b for b in self.blasts if b.first_on_day()])
 
 def prepare_blasts(blasts, user=None):
     blasts = list(blasts.select_related('user'))
@@ -27,13 +30,19 @@ def prepare_blasts(blasts, user=None):
     # Now coagulate chains of blasts with 'short' set in to bundles
     new_blasts = []
     current_bundle = []
+    current_bundle_date = None
     for blast in blasts:
-        if blast.short:
+        if blast.short and (
+                not current_bundle_date 
+                or blast.created.date() == current_bundle_date
+            ):
             current_bundle.append(blast)
+            current_bundle_date = blast.created.date()
         else:
             if current_bundle:
                 new_blasts.append(BlastBundle(current_bundle))
                 current_bundle = []
+                current_bundle_date = None
             new_blasts.append(blast)
     
     # Any stragglers?
@@ -62,10 +71,14 @@ def all(request):
     })
 
 def blast(request, pk):
+    try:
+        b = prepare_blasts(
+            Blast.objects.filter(pk = pk), request.user
+        )[0]
+    except IndexError:
+        raise Http404
     return render(request, 'blast.html', {
-        'blast': prepare_blasts(
-            [get_object_or_404(Blast, pk = pk)], request.user
-        )[0],
+        'blast': b,
     })
 
 def post(request):
@@ -122,7 +135,9 @@ def profile(request, username):
 
 def mentions(request, username):
     user = get_object_or_404(User, username = username)
-    blasts = user.mentions.all()
+    blasts = Blast.objects.filter(
+        Q(mentioned_users = user) | Q(is_broadcast = True)
+    ).distinct()
     return render(request, 'mentions.html', {
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
@@ -131,8 +146,9 @@ def mentions(request, username):
 def all_mentions(request):
     return render(request, 'all_mentions.html', {
         'blasts': prepare_blasts(
-            Blast.objects.filter(mentioned_users__isnull = False),
-            request.user
+            Blast.objects.filter(
+                Q(mentioned_users__isnull = False) | Q(is_broadcast = True)
+            ).distinct(), request.user
         )
     })
 
@@ -155,7 +171,7 @@ def all_pastes(request):
 def todos(request, username):
     user = get_object_or_404(User, username = username)
     blasts = Blast.objects.filter(is_todo = True).filter(
-        Q(user = user) | Q(mentioned_users = user)
+        Q(user = user) | Q(mentioned_users = user) | Q(is_broadcast = True)
     ).distinct()
     return render(request, 'todos.html', {
         'profile': user,

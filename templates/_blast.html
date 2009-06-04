@@ -1,7 +1,7 @@
 {% if blast.first_on_day %}<div class="inner">{% endif %}
 {% if blast.is_bundle %}
 	<div style="border-left: 1.28em solid #ccc; padding: 0pt 0pt 0pt 1.5em; background-color: rgb(238, 238, 238); font-size: 0.8em; cursor: pointer" class="blast{% if blast.first_on_day %} first-on-day{% endif %}" onclick="$(this).hide(); $('#d{{ forloop.counter }}').show(); return false;">
-	{{ blast.summary }}
+	{% for b in blast.blasts %}<span title="{{ b.message }}">{{ b.short }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
 	</div>
 	<div style="display: none" id="d{{ forloop.counter }}">
 	{% for blast in blast.blasts %}

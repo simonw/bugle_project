@@ -24,6 +24,8 @@ class Blast(models.Model):
     def set_viewing_user(self, user):
         self._viewing_user = user
         # Cache user favourites
+        if user.is_anonymous():
+            return
         user.cached_fave_ids = user.favourites.values_list('pk', flat = True)
     
     def viewing_user_is_owner(self):

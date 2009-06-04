@@ -1,38 +1,12 @@
-{% load bugle %}
-<div class="blast {% if blast.first_on_day %}first-on-day{% endif %}{% if blast.is_todo %} todo{% endif %}{% if blast.done %} done{% endif %}">
-	{% if blast.first_on_day %}<div class="inner">{% endif %}
-	    <div style="background-color: #{{ blast.colour }};" class="avatar"></div>
-	    {% if blast.is_todo %}
-			{% if blast.viewing_user_can_mark_done %}
-				<form action="/toggle/" method="POST" class="donebox">
-				<div>
-					<input type="image" src="/static/img/{{ blast.checkbox_img_name }}.png"
-						name="{{ blast.checkbox_verb }}-{{ blast.pk }}" alt="{{ blast.checkbox_img_name }}">
-						<input type="hidden" name="back_to" value="{{ request.path }}">
-					</div>
-				</form>
-			{% else %}
-				{{ blast.checkbox_img }}
-			{% endif %}
-		{% endif %}
-	    <span class="message">{% if blast.is_todo %}{{ blast.message_without_todo|urlize|buglise }}{% else %}{{ blast.message|urlize|buglise }}{% endif %}</span>{% if blast.extended %} <a href="/blast/{{ blast.pk }}/">(view full blast)</a>{% endif %}
-	    <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>
-	    on <span class="created">{{ blast.created|date:"jS F" }} 
-	    at {{ blast.created|date:"H:i" }}</span>
-		{% if blast.user_can_favourite %}
-			<form action="/favourite/" method="POST" class="donebox">
-			<div>
-				<input type="image" src="/static/img/{{ blast.favourite_img_name }}.png"
-					name="{{ blast.favourite_verb }}-{{ blast.pk }}" alt="{{ blast.favourite_img_name }}">
-					<input type="hidden" name="back_to" value="{{ request.path }}">
-				</div>
-			</form>
-		{% endif %}
-	    {% if show_delete %}
-	    <form action="/delete/" method="post" class="deleteform">
-	        <div><input type="hidden" name="id" value="{{ blast.id }}">
-	        <input type="submit" value="delete"></div>
-	    </form>
-	    {% endif %}
-	{% if blast.first_on_day %}</div>{% endif %}
-</div>
+{% if blast.is_bundle %}
+	<div style="border-left: 1.28em solid #ccc; padding: 0pt 0pt 0pt 1.5em; background-color: rgb(238, 238, 238); font-size: 0.8em; cursor: pointer" class="blast" onclick="$(this).hide(); $('#d{{ forloop.counter }}').show(); return false;">
+	{{ blast.summary }}
+	</div>
+	<div style="display: none" id="d{{ forloop.counter }}">
+	{% for blast in blast.blasts %}
+		{% include "__blast.html" %}
+	{% endfor %}
+	</div>
+{% else %}
+	{% include "__blast.html" %}
+{% endif %}

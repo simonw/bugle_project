@@ -8,13 +8,39 @@ from django.db.models import Count
 import simplejson
 from django.db.models import Q
 
-NUM_ON_HOMEPAGE = 50
+NUM_ON_HOMEPAGE = 100
+
+class BlastBundle(object):
+    is_bundle = True
+    
+    def __init__(self, blasts):
+        self.blasts = blasts
+    
+    def summary(self):
+        return ', '.join([b.short for b in self.blasts])
 
 def prepare_blasts(blasts, user=None):
     blasts = list(blasts.select_related('user'))
     for blast in blasts:
         blast.set_viewing_user(user)
-    return blasts
+    
+    # Now coagulate chains of blasts with 'short' set in to bundles
+    new_blasts = []
+    current_bundle = []
+    for blast in blasts:
+        if blast.short:
+            current_bundle.append(blast)
+        else:
+            if current_bundle:
+                new_blasts.append(BlastBundle(current_bundle))
+                current_bundle = []
+            new_blasts.append(blast)
+    
+    # Any stragglers?
+    if current_bundle:
+        new_blasts.append(BlastBundle(current_bundle))
+    
+    return new_blasts
 
 def homepage(request, autorefresh=False):
     return render(request, 'homepage.html', {

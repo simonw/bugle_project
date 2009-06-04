@@ -11,6 +11,7 @@ class Blast(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add = True)
     extended = models.TextField(blank = True, null = True)
+    short = models.CharField(max_length=50, blank = True, null = True)
     is_todo = models.BooleanField(default = False)
     done = models.BooleanField(default = False)
     mentioned_users = models.ManyToManyField(User, related_name='mentions')

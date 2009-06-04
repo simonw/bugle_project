@@ -23,6 +23,8 @@ class Blast(models.Model):
     
     def set_viewing_user(self, user):
         self._viewing_user = user
+        # Cache user favourites
+        user.cached_fave_ids = user.favourites.values_list('pk', flat = True)
     
     def viewing_user_is_owner(self):
         return self.viewing_user() == self.user
@@ -59,7 +61,7 @@ class Blast(models.Model):
     def is_favourited(self):
         if not self.user_can_favourite():
             return False
-        return self.favourited_by.filter(pk = self.viewing_user().pk).count()
+        return self.pk in self.viewing_user().cached_fave_ids
     
     def favourite_verb(self):
         return self.is_favourited() and 'notfave' or 'fave'

@@ -11,7 +11,7 @@ from django.db.models import Q
 NUM_ON_HOMEPAGE = 50
 
 def prepare_blasts(blasts, user=None):
-    blasts = list(blasts)
+    blasts = list(blasts.select_related('user'))
     for blast in blasts:
         blast.set_viewing_user(user)
     return blasts
@@ -145,8 +145,7 @@ def all_todos(request):
 def favourites(request, username):
     user = get_object_or_404(User, username = username)
     blasts = Blast.objects.filter(
-        user = user,
-        favourited_by__isnull = False
+        favourited_by = user
     )
     return render(request, 'favourites.html', {
         'profile': user,

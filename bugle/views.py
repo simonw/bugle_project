@@ -22,40 +22,43 @@ class BlastBundle(object):
     def first_on_day(self):
         return len([b for b in self.blasts if b.first_on_day()])
 
-def prepare_blasts(blasts, user=None):
+def prepare_blasts(blasts, user=None, bundle=False):
     blasts = list(blasts.select_related('user'))
     for blast in blasts:
         blast.set_viewing_user(user)
     
-    # Now coagulate chains of blasts with 'short' set in to bundles
-    new_blasts = []
-    current_bundle = []
-    current_bundle_date = None
-    for blast in blasts:
-        if blast.short and (
-                not current_bundle_date 
-                or blast.created.date() == current_bundle_date
-            ):
-            current_bundle.append(blast)
-            current_bundle_date = blast.created.date()
-        else:
-            if current_bundle:
-                new_blasts.append(BlastBundle(current_bundle))
-                current_bundle = []
-                current_bundle_date = None
-            new_blasts.append(blast)
+    if bundle:
+        # Now coagulate chains of blasts with 'short' set in to bundles
+        new_blasts = []
+        current_bundle = []
+        current_bundle_date = None
+        for blast in blasts:
+            if blast.short and (
+                    not current_bundle_date 
+                    or blast.created.date() == current_bundle_date
+                ):
+                current_bundle.append(blast)
+                current_bundle_date = blast.created.date()
+            else:
+                if current_bundle:
+                    new_blasts.append(BlastBundle(current_bundle))
+                    current_bundle = []
+                    current_bundle_date = None
+                new_blasts.append(blast)
+        
+        # Any stragglers?
+        if current_bundle:
+            new_blasts.append(BlastBundle(current_bundle))
+        
+        blasts = new_blasts
     
-    # Any stragglers?
-    if current_bundle:
-        new_blasts.append(BlastBundle(current_bundle))
-    
-    return new_blasts
+    return blasts
 
 def homepage(request, autorefresh=False):
     return render(request, 'homepage.html', {
         'blasts': prepare_blasts(
             Blast.objects.all().order_by('-created')[:NUM_ON_HOMEPAGE],
-            request.user
+            request.user, bundle=True
         ),
         'more_blasts': Blast.objects.count() > NUM_ON_HOMEPAGE,
         'autorefresh': autorefresh,
@@ -64,7 +67,8 @@ def homepage(request, autorefresh=False):
 def all(request):
     return render(request, 'homepage.html', {
         'blasts': prepare_blasts(
-            Blast.objects.all().order_by('-created'), request.user
+            Blast.objects.all().order_by('-created'), request.user,
+            bundle = True
         ),
         'more_blasts': False,
         'autorefresh': False,
@@ -129,7 +133,9 @@ def profile(request, username):
     user = get_object_or_404(User, username = username)
     return render(request, 'profile.html', {
         'profile': user,
-        'blasts': prepare_blasts(user.blasts.all(), request.user),
+        'blasts': prepare_blasts(
+            user.blasts.all(), request.user, bundle=False
+        ),
         'show_delete': request.user == user,
     })
 

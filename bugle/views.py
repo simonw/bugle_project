@@ -142,6 +142,24 @@ def all_todos(request):
         )
     })
 
+def favourites(request, username):
+    user = get_object_or_404(User, username = username)
+    blasts = Blast.objects.filter(
+        user = user,
+        favourited_by__isnull = False
+    )
+    return render(request, 'favourites.html', {
+        'profile': user,
+        'blasts': prepare_blasts(blasts, request.user),
+    })
+
+def all_favourites(request):
+    return render(request, 'all_favourites.html', {
+        'blasts': prepare_blasts(
+            Blast.objects.filter(favourited_by__isnull = False), request.user
+        )
+    })
+
 message_template = Template("{% load bugle %}{{ msg|urlize|buglise }}")
 
 def since(request):
@@ -191,4 +209,21 @@ def toggle(request):
     if verb == 'uncheck':
         blast.done = False
     blast.save()
+    return redirect(request.POST.get('back_to', '') or '/')
+
+def favourite(request):
+    if request.user.is_anonymous():
+        return redirect('/login/')
+    key = [k for k in request.POST.keys() if 'fave' in k][0].split('.')[0]
+    # key will now be uncheck-45 or check-23
+    verb, pk = key.split('-')
+    blast = get_object_or_404(Blast, pk = pk)
+    # Check the user is allowed to modify this blast
+    blast.set_viewing_user(request.user)
+    if not blast.user_can_favourite():
+        return HttpResponse('You are not allowed to favourite that')
+    if verb == 'fave':
+        blast.favourited_by.add(request.user)
+    if verb == 'notfave':
+        blast.favourited_by.remove(request.user)
     return redirect(request.POST.get('back_to', '') or '/')

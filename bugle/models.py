@@ -51,7 +51,22 @@ class Blast(models.Model):
         '<img src="/static/img/%(img)s.png" alt="%(img)s" class="donebox">'%{
             'img': self.done and 'checked' or 'unchecked',
         })
-        
+    
+    def user_can_favourite(self):
+        return self.viewing_user() is not None and \
+            not self.viewing_user().is_anonymous()
+    
+    def is_favourited(self):
+        if not self.user_can_favourite():
+            return False
+        return self.favourited_by.filter(pk = self.viewing_user().pk).count()
+    
+    def favourite_verb(self):
+        return self.is_favourited() and 'notfave' or 'fave'
+    
+    def favourite_img_name(self):
+        return self.is_favourited() and 'fave' or 'notfave'
+    
     def derive_is_todo(self):
         return todo_re.search(self.message) is not None
     

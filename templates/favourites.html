@@ -1,0 +1,12 @@
+{% extends "profile_base.html" %}
+
+{% block title %}{{ profile }}'s favourites on bugle{% endblock %}
+
+{% block inner %}
+<h2>{{ profile }}'s favourites</h2>
+
+{% for blast in blasts %}
+    {% include "_blast.html" %}
+{% endfor %}
+
+{% endblock %}

@@ -19,6 +19,15 @@
 	    <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>
 	    on <span class="created">{{ blast.created|date:"jS F" }} 
 	    at {{ blast.created|date:"H:i" }}</span>
+		{% if blast.user_can_favourite %}
+			<form action="/favourite/" method="POST" class="donebox">
+			<div>
+				<input type="image" src="/static/img/{{ blast.favourite_img_name }}.png"
+					name="{{ blast.favourite_verb }}-{{ blast.pk }}" alt="{{ blast.favourite_img_name }}">
+					<input type="hidden" name="back_to" value="{{ request.path }}">
+				</div>
+			</form>
+		{% endif %}
 	    {% if show_delete %}
 	    <form action="/delete/" method="post" class="deleteform">
 	        <div><input type="hidden" name="id" value="{{ blast.id }}">

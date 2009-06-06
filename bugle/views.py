@@ -204,7 +204,9 @@ def favourites(request, username):
 def all_favourites(request):
     return render(request, 'all_favourites.html', {
         'blasts': prepare_blasts(
-            Blast.objects.filter(favourited_by__isnull = False), request.user
+            Blast.objects.filter(
+                favourited_by__isnull = False
+            ).distinct(), request.user
         )
     })
 

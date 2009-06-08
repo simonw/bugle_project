@@ -7,7 +7,7 @@ Dependencies:
 
 - Django 1.1 beta (or later)
 - Several collaborating hackers
-- A fort
+- A fort, castle or other defensive structure
 - No internet connection
 
 Bugle is a Twitter-like application for groups of hackers collaborating in a 

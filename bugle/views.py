@@ -59,6 +59,7 @@ def homepage(request, autorefresh=False):
         ),
         'more_blasts': Blast.objects.count() > NUM_ON_HOMEPAGE,
         'autorefresh': autorefresh,
+        'initial_blast': request.GET.get('blast', ''),
     })
 
 def all(request):
@@ -179,13 +180,15 @@ def todos(request, username):
     return render(request, 'todos.html', {
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
+        'initial_blast': 'todo: '
     })
 
 def all_todos(request):
     return render(request, 'all_todos.html', {
         'blasts': prepare_blasts(
             Blast.objects.filter(is_todo = True), request.user
-        )
+        ),
+        'initial_blast': 'todo: @all ',
     })
 
 def favourites(request, username):

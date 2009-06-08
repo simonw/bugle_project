@@ -1,7 +1,7 @@
 bugle
 =====
 
-Group status updates for hackers in forts.
+Group collaboration tools for hackers in forts.
 
 Dependencies:
 

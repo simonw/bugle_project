@@ -83,6 +83,14 @@ INSTALLED_APPS = (
     'bugle',
 )
 
+RESERVED_USERNAMES = (
+    'admin', 'all', 'toggle', 'favourite', 'favourites', 'stats', 'mentions',
+    'pastes', 'paste', 'upload', 'uploads', 'files', 'file', 'images',
+    'image', 'photos', 'photo', 'pic', 'todos', 'todo', 'blast', 'blasts',
+    'bugle', 'autorefresh', 'ajax', 'polling', 'poll', 'post', 'delete', 
+    'account', 'openid', 'logout', 'login', 'static', 'link', 'links'
+)
+
 try:
     from local_settings import *
 except ImportError:
@@ -95,4 +103,3 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.request',
 )
-

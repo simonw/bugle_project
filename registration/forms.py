@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 import re
 username_re = re.compile('^[a-zA-Z0-9]+$')
@@ -15,7 +16,11 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(label=_("Password Confirmation"), max_length=16, widget=forms.PasswordInput)
     
     def clean_username(self):
-        username = self.cleaned_data.get("username")
+        username = self.cleaned_data.get("username").lower()
+        if username in getattr(settings, 'RESERVED_USERNAMES', []):
+            raise forms.ValidationError(_(
+                'That username cannot be registered'
+            ))
         try:
             User.objects.get(username=username)
         except User.DoesNotExist:

@@ -145,6 +145,7 @@ def mentions(request, username):
     return render(request, 'mentions.html', {
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
+        'initial_blast': '@%s ' % username,
     })
 
 def all_mentions(request):

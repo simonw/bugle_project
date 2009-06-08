@@ -16,8 +16,12 @@ class Blast(models.Model):
     is_todo = models.BooleanField(default = False)
     is_broadcast = models.BooleanField(default = False)
     done = models.BooleanField(default = False)
-    mentioned_users = models.ManyToManyField(User, related_name='mentions')
-    favourited_by = models.ManyToManyField(User, related_name='favourites')
+    mentioned_users = models.ManyToManyField(
+        User, related_name = 'mentions', blank = True
+    )
+    favourited_by = models.ManyToManyField(
+        User, related_name = 'favourites', blank = True
+    )
     
     def viewing_user(self):
         """We often need to make template decisions based on the user VIEWING

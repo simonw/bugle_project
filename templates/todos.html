@@ -3,7 +3,10 @@
 {% block title %}{{ profile }}'s todos on bugle{% endblock %}
 
 {% block inner %}
+<div class="headwrap">
 <h2>{{ profile }}'s todos</h2>
+<p>See <a href="/todos/">everyone's todos</a></p>
+</div>
 
 {% for blast in blasts %}
     {% include "_blast.html" %}

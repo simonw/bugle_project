@@ -1,9 +1,14 @@
-{% extends "base.html" %}
+{% extends "all_base.html" %}
 
-{% block title %}All todos on bugle{% endblock %}
+{% block title %}Everyone's todos on bugle{% endblock %}
 
-{% block content %}
-<h2>All todos</h2>
+{% block inner %}
+<div class="headwrap">
+<h2>Everyone's todos</h2>
+{% if user.is_authenticated %}
+<p>Just see <a href="/{{ user }}/todos/">your todos</a></p>
+{% endif %}
+</div>
 
 {% for blast in blasts %}
     {% include "_blast.html" %}

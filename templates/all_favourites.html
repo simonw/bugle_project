@@ -1,9 +1,14 @@
-{% extends "base.html" %}
+{% extends "all_base.html" %}
 
-{% block title %}All favourites on bugle{% endblock %}
+{% block title %}Everyone's favourites on bugle{% endblock %}
 
-{% block content %}
+{% block inner %}
+<div class="headwrap">
 <h2>All favourites</h2>
+{% if user.is_authenticated %}
+<p>Just see <a href="/{{ user }}/favourites/">your favourites</a></p>
+{% endif %}
+</div>
 
 {% for blast in blasts %}
     {% include "_blast.html" %}

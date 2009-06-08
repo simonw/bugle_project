@@ -433,6 +433,19 @@ button.link {
 /* @end */
 /* @group Page Components */
 
+/* @group Head wrapper */
+
+.headwrap h2,
+.headwrap p {
+	display: inline;
+}
+.headwrap p {
+	padding-left: 1em;
+}
+.headwrap {
+	padding-bottom: 1em;
+}
+
 /* @group Blast */
 
 div.blast {

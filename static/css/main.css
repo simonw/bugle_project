@@ -446,6 +446,13 @@ button.link {
 	padding-bottom: 1em;
 }
 
+h3 {
+	margin: 0.55em 0 0.1em 0;
+	padding: 0;
+	border-top: 2px dotted #D4984D;
+	font-size: 1em;
+}
+
 /* @group Blast */
 
 div.blast {

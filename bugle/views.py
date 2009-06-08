@@ -16,6 +16,9 @@ class BlastBundle(object):
     def __init__(self, blasts):
         self.blasts = blasts
     
+    def created(self):
+        return self.blasts[0].created
+    
     def summary(self):
         return ', '.join([b.short for b in self.blasts])
 

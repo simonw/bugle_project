@@ -11,9 +11,8 @@
 </div>
 
 {% for blast in blasts %}
-    {% include "_blast.html" %}
+	{% include "_blast.html" %}
 	<p><small>Favourited by {% for u in blast.favourited_by.all %}<a href="/{{ u }}/">{{ u }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</small></p>
-
 {% endfor %}
 
 {% endblock %}

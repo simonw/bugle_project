@@ -88,14 +88,6 @@ class Blast(models.Model):
             return self.message[len(remove):]
         return self.message
     
-    def first_on_day(self):
-        on_same_day = Blast.objects.filter(
-            created__day = self.created.day,
-            created__month = self.created.month,
-            created__year = self.created.year,
-        )
-        return on_same_day.filter(created__lt = self.created).count() == 0
-    
     def save(self, *args, **kwargs):
         super(Blast, self).save(*args, **kwargs)
         # Update the mentioned users

@@ -18,9 +18,6 @@ class BlastBundle(object):
     
     def summary(self):
         return ', '.join([b.short for b in self.blasts])
-    
-    def first_on_day(self):
-        return len([b for b in self.blasts if b.first_on_day()])
 
 def prepare_blasts(blasts, user=None, bundle=False):
     blasts = list(blasts.select_related('user'))
@@ -225,7 +222,6 @@ def since(request):
         'time': dateformat.format(b.created, 'H:i'),
         'colour': '#' + b.colour(),
         'id': b.id,
-        'first_on_day': b.first_on_day(),
     } for b in blasts]), content_type = 'text/plain')
 
 def stats(request):

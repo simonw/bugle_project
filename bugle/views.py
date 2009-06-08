@@ -177,10 +177,14 @@ def todos(request, username):
     blasts = Blast.objects.filter(is_todo = True).filter(
         Q(user = user) | Q(mentioned_users = user) | Q(is_broadcast = True)
     ).distinct()
+    if request.user.username == username:
+        initial_blast = 'todo: '
+    else:
+        initial_blast = 'todo: @%s ' % username
     return render(request, 'todos.html', {
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
-        'initial_blast': 'todo: '
+        'initial_blast': initial_blast,
     })
 
 def all_todos(request):

@@ -1,5 +1,6 @@
 from bugle.shortcuts import render, redirect, get_object_or_404
 from models import Blast
+from search import query_to_q_object
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from django.utils import dateformat
@@ -164,6 +165,19 @@ def all_mentions(request):
                 Q(mentioned_users__isnull = False) | Q(is_broadcast = True)
             ).distinct(), request.user
         )
+    })
+
+def search(request):
+    q = request.GET.get('q', '').strip()
+    blasts = []
+    if q:
+        blasts = prepare_blasts(
+            Blast.objects.filter(query_to_q_object(q, 'message')),
+            request.user
+        )
+    return render(request, 'search.html', {
+        'q': q,
+        'blasts': blasts,
     })
 
 def pastes(request, username):

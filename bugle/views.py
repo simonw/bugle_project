@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404
 from django.utils import dateformat
 from django.template import Template, Context
 from django.db.models import Count
-import simplejson
+from django.utils import simplejson
 from django.db.models import Q
 
 NUM_ON_HOMEPAGE = 100

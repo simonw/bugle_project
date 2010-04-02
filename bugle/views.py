@@ -86,16 +86,22 @@ def blast(request, pk):
         'blast': b,
     })
 
+from django import forms
+class BlastForm(forms.ModelForm):
+    class Meta:
+        model = Blast
+        fields = ('message', 'extended', 'attachment')
+
 def post(request):
     if request.user.is_anonymous():
         return redirect('/login/')
-    message = request.POST.get('blast', '').strip()
-    if message:
-        Blast.objects.create(
-            user = request.user,
-            message = message,
-            extended = request.POST.get('extended', ''),
-        )
+    
+    form = BlastForm(request.POST, request.FILES)
+    if form.is_valid():
+        blast = form.save(commit = False)
+        blast.user = request.user
+        blast.save()
+    
     return redirect('/')
 
 def post_api(request):

@@ -39,12 +39,12 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(OUR_ROOT, 'uploads')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/uploads/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -88,7 +88,7 @@ RESERVED_USERNAMES = (
     'pastes', 'paste', 'upload', 'uploads', 'files', 'file', 'images',
     'image', 'photos', 'photo', 'pic', 'todos', 'todo', 'blast', 'blasts',
     'bugle', 'autorefresh', 'ajax', 'polling', 'poll', 'post', 'delete', 
-    'account', 'openid', 'logout', 'login', 'static', 'link', 'links'
+    'account', 'openid', 'logout', 'login', 'static', 'link', 'links',
 )
 
 try:

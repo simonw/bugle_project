@@ -30,6 +30,9 @@ urlpatterns = patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': os.path.join(settings.OUR_ROOT, 'static')
     }),
+    (r'^uploads/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': os.path.join(settings.OUR_ROOT, 'uploads')
+    }),
     
     (r'^([a-zA-Z0-9]+)/$', 'bugle.views.profile'),
     (r'^([a-zA-Z0-9]+)/favourites/$', 'bugle.views.favourites'),

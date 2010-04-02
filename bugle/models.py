@@ -12,6 +12,9 @@ class Blast(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add = True)
     extended = models.TextField(blank = True, null = True)
+    attachment = models.FileField(blank = True,
+        upload_to = 'attachments/%Y/%m/%d'
+    )
     short = models.CharField(max_length=50, blank = True, null = True)
     is_todo = models.BooleanField(default = False)
     is_broadcast = models.BooleanField(default = False)
@@ -22,6 +25,11 @@ class Blast(models.Model):
     favourited_by = models.ManyToManyField(
         User, related_name = 'favourites', blank = True
     )
+    
+    def attachment_filename(self):
+        if self.attachment:
+            return self.attachment.name.split('/')[-1]
+        return ''
     
     def viewing_user(self):
         """We often need to make template decisions based on the user VIEWING

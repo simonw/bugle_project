@@ -564,7 +564,6 @@ form.blast div#extended textarea {
 	line-height: 1.5;
 	vertical-align: middle;
 	width: 70%;
-	float: left;
 	border: 1px solid #27649F;
 	font-family: courier;
 	font-size: 0.5em;
@@ -598,4 +597,8 @@ pre.extended {
 	margin-top: 2em;
 	width: 90%;
 	overflow: auto;
+}
+
+#attach {
+    font-size: 0.6em;
 }

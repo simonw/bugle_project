@@ -3,9 +3,9 @@ jQuery(function($) {
         return;
     }
     $('form.blast input:first')[0].focus();
-    $('#extended').hide();
-    var a = $('<a href="#">Include some code</a>');
-    a.toggle(function() {
+    $('#extended,#attach').hide();
+    var include_code = $('<a href="#">Include some code</a>');
+    include_code.toggle(function() {
         $('#extended').show();
         return false;
     }, function() {
@@ -13,6 +13,16 @@ jQuery(function($) {
         $('#extended').hide();
         return false;
     });
+    var attach_file = $('<a href="#">Attach a file</a>');
+    attach_file.toggle(function() {
+        $('#attach').show();
+        return false;
+    }, function() {
+        $('#attach').hide();
+        return false;
+    });
     $('p.meta:first').append(' &middot; ');
-    $('p.meta:first').append(a);
+    $('p.meta:first').append(include_code);
+    $('p.meta:first').append(' &middot; ');
+    $('p.meta:first').append(attach_file);
 });

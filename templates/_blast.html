@@ -3,11 +3,9 @@
 	    {% if blast.is_todo %}
 			{% if blast.viewing_user_can_mark_done %}
 				<form action="/toggle/" method="POST" class="donebox">
-				<div>
 					<input type="image" src="/static/img/{{ blast.checkbox_img_name }}.png"
 						name="{{ blast.checkbox_verb }}-{{ blast.pk }}" alt="{{ blast.checkbox_img_name }}">
 						<input type="hidden" name="back_to" value="{{ request.path }}">
-					</div>
 				</form>
 			{% else %}
 				{{ blast.checkbox_img }}

@@ -10,7 +10,7 @@ username_re = re.compile('@[0-9a-zA-Z]+')
 @register.filter
 def buglise(s):
     s = unicode(s)
-    if not username_re.match(s):
+    if not username_re.search(s):
         return mark_safe(s)
     
     usernames = set(User.objects.values_list('username', flat=True))

@@ -8,7 +8,7 @@
 
 <ol>
 {% for user in top_users %}
-    <li>{{ user }} - {{ user.num_blasts }} blast{{ num_blasts|pluralize }}</li>
+    <li><a href="/{{ user }}/">{{ user }}</a> - {{ user.num_blasts }} blast{{ user.num_blasts|pluralize }}</li>
 {% endfor %}
 </ol>
 

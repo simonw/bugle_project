@@ -538,11 +538,12 @@ form.blast input[type='text']:focus {
 form.blast .submit {
 	background-color: #27649F;
 	border: 3px solid #5697D5;
-	-moz-border-radius: 0 60px 0 0;
-	-webkit-border-top-right-radius:60px;
-	border-radius: 0 60px 0 0;
+	line-height: 1.5;
+	-moz-border-radius: 0 20px 0 0;
+	-webkit-border-top-right-radius: 20px;
+	border-radius: 0 20px 0 0;
 	color: white;
-	padding:0.2em 1em 0.2em 0.5em;
+	padding: 0.2em 1em 0.2em 0.5em;
 	float: left;
 	margin-left: 2%;
 	width: 4em;

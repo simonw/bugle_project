@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>{{ profile }}'s <a href="/{{ profile }}/">blasts</a> / <a href="/{{ profile }}/mentions/">mentions</a> / <a href="/{{ profile }}/favourites/">favourites</a> / <a href="/{{ profile }}/todos/">todos</a> / <a href="/{{ profile }}/pastes/">pastes</a></p>
+<p>{{ profile }}'s <a href="/{{ profile }}/">blasts</a> / <a href="/{{ profile }}/mentions/">mentions</a> / <a href="/{{ profile }}/favourites/">favourites</a> / <a href="/{{ profile }}/todos/">todos</a> / <a href="/{{ profile }}/pastes/">pastes</a> / <a href="/{{ profile }}/files/">files</a></p>
 
 {% if not user.is_anonymous %}
 <form action="/post/" method="post" class="blast">

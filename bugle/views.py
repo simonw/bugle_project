@@ -238,6 +238,21 @@ def all_favourites(request):
         )
     })
 
+def files(request, username):
+    user = get_object_or_404(User, username = username)
+    blasts = user.blasts.exclude(attachment = '')
+    return render(request, 'files.html', {
+        'profile': user,
+        'blasts': prepare_blasts(blasts, request.user),
+    })
+
+def all_files(request):
+    return render(request, 'all_files.html', {
+        'blasts': prepare_blasts(
+            Blast.objects.exclude(attachment = ''), request.user
+        ),
+    })
+
 message_template = Template("{% load bugle %}{{ msg|urlize|buglise }}")
 
 def since(request):

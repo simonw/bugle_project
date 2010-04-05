@@ -39,7 +39,7 @@ jQuery(function($) {
 {% endblock %}
 
 {% block content %}
-<p style="margin-bottom: 0">See all <a href="/favourites/">favourites</a>, <a href="/mentions/">mentions</a>, <a href="/todos/">todos</a>, <a href="/pastes/">pastes</a></p>
+<p style="margin-bottom: 0">See all <a href="/favourites/">favourites</a>, <a href="/mentions/">mentions</a>, <a href="/todos/">todos</a>, <a href="/pastes/">pastes</a>, <a href="/files/">files</a></p>
 {% if not user.is_anonymous %}
 <form action="/post/" method="post" class="blast" 
 		enctype="multipart/form-data">

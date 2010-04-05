@@ -6,7 +6,7 @@
 {% if not user.is_anonymous %}
 <form action="/post/" method="post" class="blast">
 	<div class="container">
-		<input type="text" name="blast" value="{{ initial_blast }}">
+		<input type="text" name="message" value="{{ initial_blast }}">
 		<input type="submit" class="submit" value="Blast!">
 		<div id="extended"><textarea name="extended"></textarea></div>
 	</div>

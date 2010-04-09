@@ -3,16 +3,7 @@
 {% block content %}
 <p>{{ profile }}'s <a href="/{{ profile }}/">blasts</a> / <a href="/{{ profile }}/mentions/">mentions</a> / <a href="/{{ profile }}/favourites/">favourites</a> / <a href="/{{ profile }}/todos/">todos</a> / <a href="/{{ profile }}/pastes/">pastes</a> / <a href="/{{ profile }}/files/">files</a></p>
 
-{% if not user.is_anonymous %}
-<form action="/post/" method="post" class="blast">
-	<div class="container">
-		<input type="text" name="blast" value="{{ initial_blast }}">
-		<input type="submit" class="submit" value="Blast!">
-		<div id="extended"><textarea name="extended"></textarea></div>
-	</div>
-</form>
-<p class="meta"></p>
-{% endif %}
+{% include "_blast_form.html" %}
 
 {% block inner %}{% endblock %}
 

@@ -9,6 +9,8 @@ from django.db.models import Count
 from django.utils import simplejson
 from django.db.models import Q
 
+import urllib
+
 NUM_ON_HOMEPAGE = 100
 
 class BlastBundle(object):
@@ -100,6 +102,12 @@ def post(request):
     form = BlastForm(request.POST, request.FILES)
     if form.is_valid():
         blast = form.save(commit = False)
+        if blast.message.startswith('?'):
+            return redirect('/search/?' + urllib.urlencode({
+                'q': blast.message[1:].strip(),
+            }))
+        else:
+            blast.message = blast.message.strip()
         blast.user = request.user
         blast.save()
     

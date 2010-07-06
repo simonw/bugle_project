@@ -11,7 +11,7 @@ from django.utils import simplejson
 from django.utils.decorators import method_decorator
 
 def datetime_to_twitter(dt):
-    return dt.strftime('%a %b %d %H:%M:%S +0000 %Y')
+    return dt.strftime('%a %b %d %H:%M:%S +0100 %Y') # Hard coded DST, ha
 
 def dict_to_xml(dictionary, recursion=False):
     """
@@ -37,6 +37,7 @@ def dict_to_xml(dictionary, recursion=False):
 class View(object):
     resource_name = None
     login_required = False
+    current_site = Site.objects.get_current() # this isn't going to change
     
     def __call__(self, request, *args, **kwargs):
         method = getattr(self, 'render_%s' % kwargs['format'], None)
@@ -86,6 +87,11 @@ class View(object):
         return tweets
     
     def tweeterise_blast(self, blast):
+        text = blast.message
+        if blast.extended:
+            text += ' http://%s/blast/%s/' % (self.current_site.domain, blast.id)
+        if blast.attachment:
+            text += ' [ http://%s%s ]' % (self.current_site.domain, blast.attachment.url)
         return {
             'contributors': None,
             'geo': None,
@@ -101,7 +107,7 @@ class View(object):
             'contributors': None,
             'in_reply_to_screen_name': None,
             'truncated': False,
-            'text': blast.message,
+            'text': text,
         }
         
     def tweeterise_user(self, user):
@@ -132,7 +138,7 @@ class View(object):
             'time_zone': 'London',
             'name': user.get_full_name(),
             'profile_link_color': '93A644',
-            'url': 'http://%s%s' % (Site.objects.get_current().domain, reverse('profile', args=[user.username])),
+            'url': 'http://%s/%s/' % (self.current_site.domain, user.username),
             'id': user.id,
             'profile_background_image_url': '',
             'utc_offset': 0,

@@ -95,10 +95,7 @@ class Blast(models.Model):
         return broadcast_re.search(self.message) is not None
     
     def message_without_todo(self):
-        remove = 'todo:'
-        if self.message.startswith(remove):
-            return self.message[len(remove):]
-        return self.message
+        return re.sub(r'(?i)^todo:', '', self.message)
     
     def save(self, *args, **kwargs):
         super(Blast, self).save(*args, **kwargs)

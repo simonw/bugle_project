@@ -9,23 +9,30 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils import simplejson
 from django.utils.decorators import method_decorator
-import xml.etree.ElementTree as ET
 
 def datetime_to_twitter(dt):
     return dt.strftime('%a %b %d %H:%M:%S +0000 %Y')
 
-def dict_to_xml(root, d):
-    for k, v in d.items():
-        if isinstance(v, dict):
-            dict_to_xml(ET.SubElement(root, k), v)
+def dict_to_xml(dictionary, recursion=False):
+    """
+    Tweetdeck chokes on ElementTree's XML.
+    """
+    s = ''
+    if not recursion:
+        s += '<?xml version="1.0" encoding="UTF-8"?>'
+    for key, value in dictionary.items():
+        if isinstance(value, dict):
+            formatted_value = dict_to_xml(value, recursion=True)
+        elif isinstance(value, list):
+            formatted_value = ''.join(dict_to_xml(d, recursion=True) for d in value)
+        elif value is None:
+            formatted_value = ''
+        elif isinstance(value, basestring):
+            formatted_value = value
         else:
-            element = ET.SubElement(root, k)
-            if v is None:
-                element.text = ''
-            elif isinstance(v, basestring):
-                element.text = v
-            else:
-                element.text = simplejson.dumps(v)
+            formatted_value = simplejson.dumps(value)
+        s += '<%s>%s</%s>' % (key, formatted_value, key)
+    return s
 
 class View(object):
     resource_name = None
@@ -49,9 +56,9 @@ class View(object):
         return HttpResponse(content, content_type='application/json')
     
     def render_xml(self, request, *args, **kwargs):
-        root = ET.Element(self.resource_name)
-        dict_to_xml(root, self.get_resource(request, *args, **kwargs))
-        return HttpResponse(ET.tostring(root), content_type='text/xml')
+        return HttpResponse(dict_to_xml({
+            self.resource_name: self.get_resource(request, *args, **kwargs)
+        }), content_type='text/xml')
     
     def get_resource(self, request, *args, **kwargs):
         raise NotImplementedError
@@ -163,10 +170,12 @@ class TimelineView(View):
         return self.tweeterise_timeline(self.get_page(request, *args, **kwargs).object_list)
     
     def render_xml(self, request, *args, **kwargs):
-        root = ET.Element('statuses')
+        d = {'statuses': []}
         for tweet in self.get_resource(request, *args, **kwargs):
-            dict_to_xml(ET.SubElement(root, 'status'), tweet)
-        return HttpResponse(ET.tostring(root, encoding='UTF-8'), content_type='text/xml')
+            d['statuses'].append({'status': tweet})
+        return HttpResponse(dict_to_xml({
+            self.resource_name: d
+        }), content_type='text/xml')
 
 
 class UserTimelineView(TimelineView):

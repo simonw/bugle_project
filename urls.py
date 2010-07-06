@@ -1,3 +1,4 @@
+from twitter_api.views import TimelineView, UserTimelineView, UsersShowView, VerifyCredentialsView, RateLimitStatusView, MentionsView, FavoritesView, FavoritesCreateView, FavoritesDestroyView, StatusUpdateView
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
@@ -27,6 +28,19 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', name="logout"),
     url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
     
+    # Twitter API
+    (r'^(?:1/)?statuses/(?:public|home|friends)_timeline\.(?P<format>json|xml)', TimelineView()),
+    (r'^(?:1/)?statuses/user_timeline\.(?P<format>json|xml)', UserTimelineView()),
+    (r'^(?:1/)?statuses/(?:mentions|replies)\.(?P<format>json|xml)', MentionsView()),
+    (r'^(?:1/)?statuses/update\.(?P<format>json|xml)', StatusUpdateView()),
+    (r'^(?:1/)?users/show\.(?P<format>json|xml)', UsersShowView()),
+    (r'^(?:1/)?favorites/create/(?P<id>.+?)\.(?P<format>json|xml)', FavoritesCreateView()),
+    (r'^(?:1/)?favorites/destroy/(?P<id>.+?)\.(?P<format>json|xml)', FavoritesDestroyView()),
+    (r'^(?:1/)?favorites(?:/(?P<id>.+?))?\.(?P<format>json|xml)', FavoritesView()),
+    (r'^(?:1/)?account/verify_credentials\.(?P<format>json|xml)', VerifyCredentialsView()),
+    (r'^(?:1/)?account/rate_limit_status\.(?P<format>json|xml)', RateLimitStatusView()),
+    (r'^(?:1/)?oauth/access_token', 'twitter_api.views.oauth_access_token'),
+    
     (r'^admin/', include(admin.site.urls)),
     
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {
@@ -36,7 +50,7 @@ urlpatterns = patterns('',
         'document_root': os.path.join(settings.OUR_ROOT, 'uploads')
     }),
     
-    (r'^([a-zA-Z0-9]+)/$', 'bugle.views.profile'),
+    url(r'^([a-zA-Z0-9]+)/$', 'bugle.views.profile', name='profile'),
     (r'^([a-zA-Z0-9]+)/favourites/$', 'bugle.views.favourites'),
     (r'^([a-zA-Z0-9]+)/mentions/$', 'bugle.views.mentions'),
     (r'^([a-zA-Z0-9]+)/pastes/$', 'bugle.views.pastes'),

@@ -65,6 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'twitter_api.middleware.ghetto_oauth.GhettoOAuthMiddleware',
 #    'debug_middleware.DebugFooter',
 )
 
@@ -81,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'bugle',
+    'twitter_api',
 )
 
 RESERVED_USERNAMES = (

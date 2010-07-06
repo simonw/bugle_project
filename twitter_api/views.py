@@ -149,9 +149,9 @@ class TimelineView(View):
     def get_blasts(self, request, *args, **kwargs):
         blasts = Blast.objects.all()
         if 'since_id' in request.GET:
-            blasts.filter(id__gt=request.GET['since_id'])
+            blasts = blasts.filter(id__gt=request.GET['since_id'])
         if 'max_id' in request.GET:
-            blasts.filter(id__lte=request.GET['max_id'])
+            blasts = blasts.filter(id__lte=request.GET['max_id'])
         return blasts
     
     def get_page(self, request, *args, **kwargs):

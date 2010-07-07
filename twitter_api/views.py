@@ -9,6 +9,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils import simplejson
 from django.utils.decorators import method_decorator
+from django.utils.html import escape
 
 def datetime_to_twitter(dt):
     return dt.strftime('%a %b %d %H:%M:%S +0100 %Y') # Hard coded DST, ha
@@ -28,9 +29,9 @@ def dict_to_xml(dictionary, recursion=False):
         elif value is None:
             formatted_value = ''
         elif isinstance(value, basestring):
-            formatted_value = value
+            formatted_value = escape(value)
         else:
-            formatted_value = simplejson.dumps(value)
+            formatted_value = escape(simplejson.dumps(value))
         s += '<%s>%s</%s>' % (key, formatted_value, key)
     return s
 

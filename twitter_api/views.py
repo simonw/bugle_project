@@ -77,16 +77,16 @@ class View(object):
             else:
                 return User.objects.get(id=user_id)
     
-    def tweeterise_timeline(self, blasts):
+    def tweeterise_timeline(self, request, blasts):
         """
         Converts an iterable of blasts into tweets.
         """
         tweets = []
         for blast in blasts:
-            tweets.append(self.tweeterise_blast(blast))
+            tweets.append(self.tweeterise_blast(request, blast))
         return tweets
     
-    def tweeterise_blast(self, blast):
+    def tweeterise_blast(self, request, blast):
         text = blast.message
         if blast.extended:
             text += ' http://%s/blast/%s/' % (self.current_site.domain, blast.id)
@@ -97,11 +97,11 @@ class View(object):
             'geo': None,
             'in_reply_to_status_id': None,
             'in_reply_to_user_id': None,
-            'favourited': False,
+            'favorited': request.user.is_authenticated() and blast in request.user.favourites.all(),
             'source': 'Fort',
             'created_at': datetime_to_twitter(blast.created),
             'coordinates': None,
-            'user': self.tweeterise_user(blast.user),
+            'user': self.tweeterise_user(request, blast.user),
             'place': None,
             'id': blast.id,
             'contributors': None,
@@ -110,7 +110,7 @@ class View(object):
             'text': text,
         }
         
-    def tweeterise_user(self, user):
+    def tweeterise_user(self, request, user):
         user_count = User.objects.count()
         return {
             'profile_sidebar_fill_color': 'ffffff',
@@ -173,7 +173,7 @@ class TimelineView(View):
             raise Http404
     
     def get_resource(self, request, *args, **kwargs):
-        return self.tweeterise_timeline(self.get_page(request, *args, **kwargs).object_list)
+        return self.tweeterise_timeline(request, self.get_page(request, *args, **kwargs).object_list)
     
     def render_xml(self, request, *args, **kwargs):
         d = {'statuses': []}
@@ -225,7 +225,7 @@ class StatusUpdateView(View):
     def get_resource(self, request):
         if request.method != 'POST':
             raise Http404
-        return self.tweeterise_blast(Blast.objects.create(
+        return self.tweeterise_blast(request, Blast.objects.create(
             user=request.user,
             message=request.POST['status'].strip(),
         ))
@@ -238,7 +238,7 @@ class FavoritesCreateView(View):
     def get_resource(self, request, id):
         blast = get_object_or_404(Blast, id=id)
         blast.favourited_by.add(request.user)
-        return self.tweeterise_blast(blast)
+        return self.tweeterise_blast(request, blast)
 
 
 class FavoritesDestroyView(View):
@@ -248,7 +248,7 @@ class FavoritesDestroyView(View):
     def get_resource(self, request, id):
         blast = get_object_or_404(Blast, id=id)
         blast.favourited_by.remove(request.user)
-        return self.tweeterise_blast(blast)
+        return self.tweeterise_blast(request, blast)
 
 
 class UsersShowView(View):
@@ -258,7 +258,7 @@ class UsersShowView(View):
         user = self.get_user(request)
         if not user:
             raise Http404
-        return self.tweeterise_user(user)
+        return self.tweeterise_user(request, user)
     
 
 class VerifyCredentialsView(UsersShowView):
@@ -268,7 +268,7 @@ class VerifyCredentialsView(UsersShowView):
         user = self.get_user(request)
         if not user:
             user = request.user
-        return self.tweeterise_user(user)
+        return self.tweeterise_user(request, user)
 
 
 def oauth_access_token(request):

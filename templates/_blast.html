@@ -11,7 +11,7 @@
 				{{ blast.checkbox_img }}
 			{% endif %}
 		{% endif %}
-	    <span class="message">{% if blast.is_todo %}{{ blast.message_without_todo|urlize|buglise }}{% else %}{{ blast.message|urlize|buglise }}{% endif %}</span>{% if blast.extended %} <a href="/blast/{{ blast.pk }}/">(view full blast)</a>{% endif %}{% if blast.attachment %} [<a href="{{ blast.attachment.url }}">{{ blast.attachment_filename }}</a>]{% endif %}
+	    <span class="message">{% if blast.is_todo %}{{ blast.message_without_todo|urlize|buglise|linebreaksbr }}{% else %}{{ blast.message|urlize|buglise|linebreaksbr }}{% endif %}</span>{% if blast.extended %} <a href="/blast/{{ blast.pk }}/">(view full blast)</a>{% endif %}{% if blast.attachment %} [<a href="{{ blast.attachment.url }}">{{ blast.attachment_filename }}</a>]{% endif %}
 	    <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>
 	    on <span class="created">{{ blast.created|date:"jS F" }} 
 	    at {{ blast.created|date:"H:i" }}</span>

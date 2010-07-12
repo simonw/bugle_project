@@ -114,13 +114,17 @@ class View(object):
         
     def tweeterise_user(self, request, user):
         user_count = User.objects.count()
+        if user.username == 'subversion':
+            profile_image = ''
+        else:
+            profile_image = 'http://%s/twitter/profile-image/%s.png' % (self.current_site.domain, user.pk)
         return {
             'profile_sidebar_fill_color': 'ffffff',
             'description': '',
             'location': 'Fort.',
             'notifications': False,
             'profile_background_tile': False,
-            'profile_image_url': 'http://%s/twitter/profile-image/%s.png' % (self.current_site.domain, user.pk),
+            'profile_image_url': profile_image,
             'statuses_count': user.blasts.count(),
             'profile_sidebar_border_color': 'eeeeee',
             'profile_use_background_image': True,

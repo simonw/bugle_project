@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from django.utils.html import escape
+from twitter_api.models import TwitterProfile
 
 def datetime_to_twitter(dt):
     return dt.strftime('%a %b %d %H:%M:%S +0100 %Y') # Hard coded DST, ha
@@ -119,7 +120,7 @@ class View(object):
             'location': 'Fort.',
             'notifications': False,
             'profile_background_tile': False,
-            'profile_image_url': '',
+            'profile_image_url': 'http://%s/twitter/profile-image/%s.png' % (self.current_site.domain, user.pk),
             'statuses_count': user.blasts.count(),
             'profile_sidebar_border_color': 'eeeeee',
             'profile_use_background_image': True,
@@ -287,3 +288,11 @@ class RateLimitStatusView(View):
             'remaining-hits': 9999999,
         }
 
+
+def profile_image(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    try:
+        profile = user.twitter_profile
+    except TwitterProfile.DoesNotExist:
+        profile = TwitterProfile.objects.create(user=user)
+    return HttpResponse(profile.profile_image.read(), content_type='image/png')

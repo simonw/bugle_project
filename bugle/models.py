@@ -1,7 +1,9 @@
+import datetime
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
-import md5, re
+import md5
+import re
 
 todo_re = re.compile(r'\btodo:', re.I)
 broadcast_re = re.compile(r'@all\b', re.I)
@@ -10,7 +12,7 @@ username_re = re.compile('@[0-9a-zA-Z]+')
 class Blast(models.Model):
     user = models.ForeignKey(User, related_name = 'blasts')
     message = models.TextField()
-    created = models.DateTimeField(auto_now_add = True)
+    created = models.DateTimeField(default=datetime.datetime.now)
     extended = models.TextField(blank = True, null = True)
     attachment = models.FileField(blank = True,
         upload_to = 'attachments/%Y/%m/%d'

@@ -153,7 +153,7 @@ class View(object):
 
 class TimelineView(View):
     def get_blasts(self, request, *args, **kwargs):
-        blasts = Blast.objects.all()
+        blasts = Blast.objects.exclude(user__username='subversion')
         if 'since_id' in request.GET:
             blasts = blasts.filter(id__gt=request.GET['since_id'])
         if 'max_id' in request.GET:

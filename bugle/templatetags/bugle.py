@@ -2,16 +2,16 @@ from django import template
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 import re
+import urllib
 
 register = template.Library()
 
 username_re = re.compile('@[0-9a-zA-Z]+')
+hashtag_re = re.compile('#[^\s]+')
 
 @register.filter
 def buglise(s):
     s = unicode(s)
-    if not username_re.search(s):
-        return mark_safe(s)
     
     usernames = set(User.objects.values_list('username', flat=True))
     def replace_username(match):
@@ -23,4 +23,15 @@ def buglise(s):
         else:
             return '@' + username
     
-    return mark_safe(username_re.sub(replace_username, s))
+    s = username_re.sub(replace_username, s)
+
+    s = hashtag_re.sub(
+        lambda m: '<a href="/search/?q=%s">%s</a>' % (
+            urllib.quote(m.group(0)), 
+            m.group(0),
+        ),
+        s
+    )
+    print s
+    return mark_safe(s)
+    

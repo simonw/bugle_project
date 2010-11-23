@@ -7,7 +7,7 @@ import urllib
 register = template.Library()
 
 username_re = re.compile('@[0-9a-zA-Z]+')
-hashtag_re = re.compile('#[^\s]+')
+hashtag_re = re.compile('\b#[^\s]+')
 
 @register.filter
 def buglise(s):

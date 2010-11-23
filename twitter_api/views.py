@@ -190,6 +190,10 @@ class TimelineView(View):
         }), content_type='text/xml')
 
 
+class LoginRequiredTimelineView(TimelineView):
+    login_required = True
+
+
 class UserTimelineView(TimelineView):
     def get_blasts(self, request):
         user = self.get_user(request)

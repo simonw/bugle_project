@@ -1,4 +1,4 @@
-from twitter_api.views import TimelineView, UserTimelineView, UsersShowView, VerifyCredentialsView, RateLimitStatusView, MentionsView, FavoritesView, FavoritesCreateView, FavoritesDestroyView, StatusUpdateView
+from twitter_api.views import TimelineView, LoginRequiredTimelineView, UserTimelineView, UsersShowView, VerifyCredentialsView, RateLimitStatusView, MentionsView, FavoritesView, FavoritesCreateView, FavoritesDestroyView, StatusUpdateView
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
@@ -29,7 +29,8 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
     
     # Twitter API
-    (r'^(?:1/)?statuses/(?:public|home|friends)_timeline\.(?P<format>json|xml)', TimelineView()),
+    (r'^(?:1/)?statuses/public_timeline\.(?P<format>json|xml)', TimelineView()),
+    (r'^(?:1/)?statuses/(?:home|friends)_timeline\.(?P<format>json|xml)', LoginRequiredTimelineView()),
     (r'^(?:1/)?statuses/user_timeline\.(?P<format>json|xml)', UserTimelineView()),
     (r'^(?:1/)?statuses/(?:mentions|replies)\.(?P<format>json|xml)', MentionsView()),
     (r'^(?:1/)?statuses/update\.(?P<format>json|xml)', StatusUpdateView()),

@@ -32,6 +32,5 @@ def buglise(s):
         ),
         s
     )
-    print s
     return mark_safe(s)
     

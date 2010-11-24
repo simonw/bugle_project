@@ -13,7 +13,7 @@ from django.utils.html import escape
 from twitter_api.models import TwitterProfile
 
 def datetime_to_twitter(dt):
-    return dt.strftime('%a %b %d %H:%M:%S +0100 %Y') # Hard coded DST, ha
+    return dt.strftime('%a %b %d %H:%M:%S +0000 %Y') # Hard coded DST, ha
 
 def dict_to_xml(dictionary, recursion=False):
     """

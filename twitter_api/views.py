@@ -114,10 +114,12 @@ class View(object):
         
     def tweeterise_user(self, request, user):
         user_count = User.objects.count()
-        if user.username == 'subversion':
-            profile_image = ''
-        else:
-            profile_image = 'http://%s/twitter/profile-image/%s.png' % (self.current_site.domain, user.pk)
+        profile_image = ''
+        if user.username != 'subversion':
+            try:
+                profile_image = 'http://' + self.current_site.domain + user.twitter_profile.profile_image.url
+            except TwitterProfile.DoesNotExist:
+                pass
         return {
             'profile_sidebar_fill_color': 'ffffff',
             'description': '',
@@ -297,10 +299,3 @@ class RateLimitStatusView(View):
         }
 
 
-def profile_image(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    try:
-        profile = user.twitter_profile
-    except TwitterProfile.DoesNotExist:
-        profile = TwitterProfile.objects.create(user=user)
-    return HttpResponse(profile.profile_image.read(), content_type='image/png')

@@ -42,7 +42,6 @@ urlpatterns = patterns('',
     (r'^(?:1/)?account/verify_credentials\.(?P<format>json|xml)', VerifyCredentialsView()),
     (r'^(?:1/)?account/rate_limit_status\.(?P<format>json|xml)', RateLimitStatusView()),
     (r'^(?:1/)?oauth/access_token', 'twitter_api.views.oauth_access_token'),
-    (r'^twitter/profile-image/(\d+)\.png$', 'twitter_api.views.profile_image'),
     
     (r'^admin/', include(admin.site.urls)),
     

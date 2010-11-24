@@ -135,6 +135,19 @@ def post_api(request):
     )
     return HttpResponse('Message saved')
 
+def post_image(request):
+    """Let iPhone Twitter client users attach images"""
+    
+    Blast.objects.create(
+        user = request.user,
+        message = "iPhone photo upload",
+        extended = '',
+        short = '',
+        attachment = request.FILES['media']
+    )
+    
+    return HttpResponse('Photo saved')
+
 def delete(request):
     if request.user.is_anonymous():
         return redirect('/login/')

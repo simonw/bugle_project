@@ -8,6 +8,7 @@ import re
 todo_re = re.compile(r'\btodo:', re.I)
 broadcast_re = re.compile(r'@all\b', re.I)
 username_re = re.compile('@[0-9a-zA-Z]+')
+image_upload_re = re.compile('image_upload:([0-9]+)')
 
 class Blast(models.Model):
     user = models.ForeignKey(User, related_name = 'blasts')
@@ -100,7 +101,19 @@ class Blast(models.Model):
         return re.sub(r'(?i)^todo:', '', self.message)
     
     def save(self, *args, **kwargs):
+        # Does it contain an iPhone Twitter image upload?
+        image_upload_ids = image_upload_re.findall(self.message)
+        if image_upload_ids:
+            try:
+                image_upload = ImageUpload.objects.get(id=image_upload_ids[0])
+            except ImageUpload.DoesNotExist:
+                pass
+            else:
+                self.attachment = image_upload.attachment.file
+                self.message = image_upload_re.sub('', self.message)
+
         super(Blast, self).save(*args, **kwargs)
+
         # Update the mentioned users
         self.mentioned_users.clear()
         for user in self.derive_mentioned_users():
@@ -122,4 +135,10 @@ class Blast(models.Model):
     
     def __unicode__(self):
         return u'%s at %s' % (self.user, self.created)
-    
+
+class ImageUpload(models.Model):
+    """Holds images uploaded via the iPhone client's image attachment feature"""
+
+    user = models.ForeignKey(User, related_name='image_uploads')
+    attachment = models.FileField(blank=False, upload_to='image_uploads')
+

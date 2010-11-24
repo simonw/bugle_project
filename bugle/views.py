@@ -1,5 +1,5 @@
 from bugle.shortcuts import render, redirect, get_object_or_404
-from models import Blast
+from models import Blast, ImageUpload
 from search import query_to_q_object
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
@@ -134,6 +134,16 @@ def post_api(request):
         short = request.POST.get('short', ''),
     )
     return HttpResponse('Message saved')
+
+def post_image(request):
+    """Let iPhone Twitter client users attach images"""
+    
+    image_upload = ImageUpload.objects.create(
+        user = request.user,
+        attachment = request.FILES['media']
+    )
+    
+    return HttpResponse('<mediaurl>image_upload:%s</mediaurl>' % image_upload.pk)
 
 def delete(request):
     if request.user.is_anonymous():

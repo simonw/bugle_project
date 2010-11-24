@@ -299,3 +299,29 @@ class RateLimitStatusView(View):
         }
 
 
+class CurrentTrendsView(View):
+    def get_resource(self, request):
+        return {
+            'trends': {
+                '2010-06-22 17:20:00': [
+                    {
+                        'name': 'Bacon',
+                        'query': 'Bacon'
+                    },
+                    {
+                        'name': 'Space',
+                        'query': 'Space'
+                    },
+                    {
+                        'name': 'Bunnies',
+                        'query': 'Bunnies'
+                    },
+                    {
+                        'name': 'Wookie',
+                        'query': 'Wookie'
+                    }
+                ]
+            },
+            'as_of': 1277227101
+        }
+

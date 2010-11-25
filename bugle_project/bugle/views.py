@@ -1,4 +1,5 @@
 from bugle.shortcuts import render, redirect, get_object_or_404
+from forms import BlastForm
 from models import Blast, ImageUpload
 from search import query_to_q_object
 from django.contrib.auth.models import User
@@ -87,12 +88,6 @@ def blast(request, pk):
         'blast': b,
         'is_single': True
     })
-
-from django import forms
-class BlastForm(forms.ModelForm):
-    class Meta:
-        model = Blast
-        fields = ('message', 'extended', 'attachment', 'in_reply_to')
 
 def post(request):
     if request.user.is_anonymous():

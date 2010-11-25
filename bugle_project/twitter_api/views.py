@@ -1,4 +1,5 @@
 from bugle.models import Blast
+from bugle.search import query_to_q_object
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -11,6 +12,7 @@ from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from django.utils.html import escape
 from twitter_api.models import TwitterProfile
+import urllib
 
 def datetime_to_twitter(dt):
     return dt.strftime('%a %b %d %H:%M:%S +0000 %Y') # Hard coded DST, ha
@@ -88,13 +90,22 @@ class View(object):
             tweets.append(self.tweeterise_blast(request, blast))
         return tweets
     
-    def tweeterise_blast(self, request, blast):
-        text = blast.message
+    def get_text(self, blast):
+        text = [blast.message]
         if blast.extended:
-            text += ' http://%s/blast/%s/' % (self.current_site.domain, blast.id)
+            text.append('http://%s/blast/%s/' % (
+                self.current_site.domain, 
+                blast.id
+            ))
         if blast.attachment:
-            text += ' [ http://%s%s ]' % (self.current_site.domain, blast.attachment.url)
-        return {
+            text.append('[ http://%s%s ]' % (
+                self.current_site.domain, 
+                blast.attachment.url
+            ))
+        return ' '.join(text)
+        
+    def tweeterise_blast(self, request, blast):
+        d = {
             'contributors': None,
             'geo': None,
             'in_reply_to_status_id': None,
@@ -109,24 +120,33 @@ class View(object):
             'contributors': None,
             'in_reply_to_screen_name': None,
             'truncated': False,
-            'text': text,
+            'text': self.get_text(blast),
         }
-        
-    def tweeterise_user(self, request, user):
-        user_count = User.objects.count()
+
+        if blast.in_reply_to:
+            d['in_reply_to_status_id'] = blast.in_reply_to.pk
+
+        return d
+
+    def get_profile_image(self, user):
         profile_image = ''
         if user.username != 'subversion':
             try:
                 profile_image = 'http://' + self.current_site.domain + user.twitter_profile.profile_image.url
             except TwitterProfile.DoesNotExist:
                 pass
+        return profile_image
+
+        
+    def tweeterise_user(self, request, user):
+        user_count = User.objects.count()
         return {
             'profile_sidebar_fill_color': 'ffffff',
             'description': '',
             'location': 'Fort.',
             'notifications': False,
             'profile_background_tile': False,
-            'profile_image_url': profile_image,
+            'profile_image_url': self.get_profile_image(user),
             'statuses_count': user.blasts.count(),
             'profile_sidebar_border_color': 'eeeeee',
             'profile_use_background_image': True,
@@ -164,17 +184,19 @@ class TimelineView(View):
     
     def get_page(self, request, *args, **kwargs):
         count = 20
-        if 'count' in request.GET:
-            try:
-                count = int(request.GET['count'])
-            except ValueError:
-                pass
+        try:
+            count = int(request.GET['count'])
+        except (ValueError, KeyError):
+            pass
+        try:
+            count = int(request.GET['rpp'])
+        except (ValueError, KeyError):
+            pass
         page = 1
-        if 'page' in request.GET:
-            try:
-                page = int(request.GET['page'])
-            except ValueError:
-                pass
+        try:
+            page = int(request.GET['page'])
+        except (ValueError, KeyError):
+            pass
         try:
             return Paginator(self.get_blasts(request, *args, **kwargs).order_by('-created'), count).page(page)
         except EmptyPage:
@@ -228,6 +250,67 @@ class FavoritesView(TimelineView):
             user = request.user
         return super(FavoritesView, self).get_blasts(request).filter(
             favourited_by=user)
+
+
+class SearchView(TimelineView):
+    def get_blasts(self, request):
+        blasts = super(SearchView, self).get_blasts(request)
+        if 'q' in request.GET and request.GET['q']:
+            blasts = blasts.filter(query_to_q_object(request.GET['q'], 'message'))
+        return blasts
+    
+    def get_resource(self, request):
+        output = {
+            'results': [],
+            'since_id': None,
+            'max_id': None, # not supported
+            'refresh_url': '?' + request.GET.urlencode(),
+            'results_per_page': None,
+            'next_page': None,
+            'completed_in': 0,
+            'page': int(request.GET.get('page', 1)),
+            'query': urllib.quote(request.GET.get('q', '')),
+        }
+        page = None
+        try:
+            page = self.get_page(request)
+        except Http404:
+            pass
+        # If the page doesn't exist or no query has been supplied, return an
+        # empty result set instead of 404ing
+        if not page or not request.GET.get('q', None):
+            return output
+
+        for blast in page.object_list:
+            tweet = {
+                'text': self.get_text(blast),
+                'to_user_id': None,
+                'to_user': None,
+                'from_user': blast.user.username,
+                'metadata': {},
+                'id': blast.id,
+                'from_user_id': blast.user.id,
+                'iso_language_code': 'en',
+                'source': 'Fort',
+                'profile_image_url': self.get_profile_image(blast.user),
+                'created_at': datetime_to_twitter(blast.created),
+            }
+            if blast.in_reply_to:
+                tweet['to_user_id'] = blast.in_reply_to.user.id
+                tweet['to_user'] = blast.in_reply_to.user.username
+            output['results'].append(tweet)
+        next_page_dict = request.GET.copy()
+        next_page_dict['page'] = page.number + 1
+        output['next_page'] = '?' + next_page_dict.urlencode()
+        try:
+            output['since_id'] = int(request.GET['since_id'])
+        except (KeyError, ValueError):
+            pass
+        try:
+            output['results_per_page'] = int(request.GET['rpp'])
+        except (KeyError, ValueError):
+            pass
+        return output
 
 
 class StatusUpdateView(View):

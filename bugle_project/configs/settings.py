@@ -103,6 +103,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
+SOUTH_TESTS_MIGRATE = True
+SKIP_SOUTH_TESTS = True
+
 try:
     from local_settings import *
 except ImportError:

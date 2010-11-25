@@ -1,15 +1,18 @@
+<ol id="blasts">
 {% for blast in blasts %}
-	{% ifchanged %}<h3>{{ blast.created|date:"jS F" }}</h3>{% endifchanged %}
-	{% if blast.is_bundle %}
-		<div style="border-left: 1.28em solid #ccc; padding: 0pt 0pt 0pt 1.5em; background-color: rgb(238, 238, 238); font-size: 0.8em; cursor: pointer" class="blast" onclick="$(this).hide(); $('#d{{ forloop.counter }}').show(); return false;">
-		{% for b in blast.blasts %}<span title="{{ b.message }}">{{ b.short }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
-		</div>
-		<div style="display: none" id="d{{ forloop.counter }}">
-		{% for blast in blast.blasts %}
-			{% include "_blast.html" %}
-		{% endfor %}
-		</div>
-	{% else %}
-		{% include "_blast.html" %}
-	{% endif %}
+  {% if blast.is_bundle %}
+    <li class="bundle">
+      {% for b in blast.blasts %}
+        <span title="{{ b.message }}">{{ b.short }}</span>{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+      <ol>
+      {% for blast in blast.blasts %}
+        <li>{% include "_blast.html" %}</li>
+      {% endfor %}
+      </ol>
+    </li>
+  {% else %}
+    <li>{% include "_blast.html" %}</li>
+  {% endif %}
 {% endfor %}
+</ol>

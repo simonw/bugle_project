@@ -6,13 +6,6 @@
 
 <h1>Search bugle{% if q %} for "{{ q }}"{% endif %}</h1>
 
-<form action="/search/" method="get">
-	<div class="container">
-		<input type="text" name="q" value="{{ q }}" style="width: 60%">
-		<input type="submit" class="submit" value="Search">
-	</div>
-</form>
-
 <div id="blasts">
     {% include "_blasts.html" %}
 </div>

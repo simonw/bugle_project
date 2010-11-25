@@ -87,6 +87,7 @@ def blast(request, pk):
         raise Http404
     return render(request, 'blast.html', {
         'blast': b,
+        'is_single': True
     })
 
 from django import forms
@@ -171,6 +172,7 @@ def mentions(request, username):
         Q(mentioned_users = user) | Q(is_broadcast = True)
     ).distinct()
     return render(request, 'mentions.html', {
+        'section': 'mentions',
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
         'initial_blast': '@%s ' % username,
@@ -178,6 +180,7 @@ def mentions(request, username):
 
 def all_mentions(request):
     return render(request, 'all_mentions.html', {
+        'section': 'mentions',
         'blasts': prepare_blasts(
             Blast.objects.filter(
                 Q(mentioned_users__isnull = False) | Q(is_broadcast = True)
@@ -202,12 +205,14 @@ def pastes(request, username):
     user = get_object_or_404(User, username = username)
     blasts = user.blasts.exclude(extended = None).exclude(extended = '')
     return render(request, 'pastes.html', {
+        'section': 'pastes',
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
     })
 
 def all_pastes(request):
     return render(request, 'all_pastes.html', {
+        'section': 'pastes',
         'blasts': prepare_blasts(
             Blast.objects.exclude(extended=None).exclude(extended=''),
             request.user
@@ -224,6 +229,7 @@ def todos(request, username):
     else:
         initial_blast = 'todo: @%s ' % username
     return render(request, 'todos.html', {
+        'section': 'todos',
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
         'initial_blast': initial_blast,
@@ -231,6 +237,7 @@ def todos(request, username):
 
 def all_todos(request):
     return render(request, 'all_todos.html', {
+        'section': 'todos',
         'blasts': prepare_blasts(
             Blast.objects.filter(is_todo = True), request.user
         ),
@@ -243,12 +250,14 @@ def favourites(request, username):
         favourited_by = user
     )
     return render(request, 'favourites.html', {
+        'section': 'favourites',
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
     })
 
 def all_favourites(request):
     return render(request, 'all_favourites.html', {
+        'section': 'favourites',
         'blasts': prepare_blasts(
             Blast.objects.filter(
                 favourited_by__isnull = False
@@ -260,12 +269,14 @@ def files(request, username):
     user = get_object_or_404(User, username = username)
     blasts = user.blasts.exclude(attachment = '')
     return render(request, 'files.html', {
+        'section': 'files',
         'profile': user,
         'blasts': prepare_blasts(blasts, request.user),
     })
 
 def all_files(request):
     return render(request, 'all_files.html', {
+        'section': 'files',
         'blasts': prepare_blasts(
             Blast.objects.exclude(attachment = ''), request.user
         ),

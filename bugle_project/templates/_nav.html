@@ -1,0 +1,45 @@
+<nav>
+  <ul>
+    {% ifequal request.path "/" %}
+    <li class="selected">All</li>
+    {% else %}
+    <li><a href="/">All</a></li>
+    {% endifequal %}
+    {% ifequal section "mentions" %}
+    <li class="selected">Mentions</li>
+    {% else %}
+    <li><a href="/mentions/">Mentions</a></li>
+    {% endifequal %}
+    {% ifequal section "favourites" %}
+    <li class="selected">Favourites</li>
+    {% else %}
+    <li><a href="/favourites/">Favourites</a></li>
+    {% endifequal %}
+    {% ifequal section "todos" %}
+    <li class="selected">Todos</li>
+    {% else %}
+    <li><a href="/todos/">Todos</a></li>
+    {% endifequal %}
+    {% ifequal section "pastes" %}
+    <li class="selected">Pastes</li>
+    {% else %}
+    <li><a href="/pastes/">Pastes</a></li>
+    {% endifequal %}
+    {% ifequal section "files" %}
+    <li class="selected">Files</li>
+    {% else %}
+    <li><a href="/files/">Files</a></li>
+    {% endifequal %}
+  </ul>
+{% ifnotequal request.path "/" %}
+{% if not user.is_anonymous %}
+  <p>
+      {% if profile %}
+      <span>See </span><a class="all" href="/{{ section }}/">all</span><span>blasts; </span></a><span class="yours selected"><span>currently viewing </span>yours</span>
+      {% else %}
+      <span>Currently viewing </span><span class="selected all">all</span><span>blasts; </span><a href="/{{ user }}/{{ section }}/" class="yours"><span>see </span>yours</a>
+      {% endif %}
+  </p>
+{% endif %}
+{% endifnotequal %}
+</nav>

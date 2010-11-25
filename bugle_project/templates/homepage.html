@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}bugle{% endblock %}
+{% block outer_title %}bugle{% endblock %}
 
 {% block extra_head %}
 {% if autorefresh %}
@@ -39,15 +39,10 @@ jQuery(function($) {
 {% endblock %}
 
 {% block content %}
-<p style="margin-bottom: 0">See all <a href="/favourites/">favourites</a>, <a href="/mentions/">mentions</a>, <a href="/todos/">todos</a>, <a href="/pastes/">pastes</a>, <a href="/files/">files</a></p>
 
-{% include "_blast_form.html" %}
-
-<div id="blasts">
-    {% include "_blasts.html" %}
-</div>
+{% include "_blasts.html" %}
 {% if more_blasts %}
-<p><a href="/all">All blasts</a></p>
+<a href="/all">All blasts</a>
 {% endif %}
 
 {% endblock %}

@@ -1,12 +1,8 @@
 {% extends "profile_base.html" %}
 
-{% block title %}{{ profile }}'s mentions on bugle{% endblock %}
+{% block title %}{{ profile }}'s mentions {% endblock %}
 
 {% block inner %}
-<div class="headwrap">
-<h2>{{ profile }}'s mentions</h2>
-<p>See <a href="/mentions/">everyone's mentions</a></p>
-</div>
 
 {% include "_blasts.html" %}
 

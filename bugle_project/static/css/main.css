@@ -1,605 +1,228 @@
-/* @group General styles */
-/*
-Harmonise v1.3
-Resets styles then adds basic typographical styling.
-Use as a starting point upon which to build more CSS.
-By Clearleft.com
-*/
-
-/* @group Reset */
-
-/* Based on http://meyerweb.com/eric/tools/css/reset/ */
-/* v1.0 | 20080212 */
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	vertical-align: baseline;
-	background: transparent;
-}
-
-ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-
-:focus {
-	outline: 0;
-}
-
-/* tables may still need 'cellspacing="0"' in the markup */
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/* @end */
-
+html{color:#000;background:#FFF;}
+legend{color:#000;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+abbr,acronym{border:0;font-variant:normal;}
+q:before,q:after{content:'';}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+del,ins{text-decoration:none;}
+li{list-style:none;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+caption,th{text-align:left;}
+address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}
+sup{vertical-align:baseline;}
+sub{vertical-align:baseline;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{*font-size:100%;}
 
 body {
-	max-width: 79em; /* 1106px */
-	margin: 0 auto;
-	padding: 40px 0 70px 0;
-	background: #C97E21;
-	color:#000;
-    font-size:14px;
-    line-height:1.5em; /* Baseline grid of 21px */
+    margin:                 20px 0 20px auto;
+    padding:                0 160px 0 10px;
+    width:                  640px;
 }
 
-a:link, 
-button.link span {
-	color: #0063DC;
-	text-decoration: underline;
+a {
+    color:                  #c19958;
+    text-decoration:        none;
 }
-a:visited {
-	color: #1057ae;
-	text-decoration: underline;
-}
-a:hover, 
+a:hover,
 a:focus,
-button.link:hover,
-button.link:focus span {
-	color: #FFFFFF; 
-	text-decoration: none;
-	background-color: #0063DC;
+a:active {
+    text-decoration:        underline;
 }
-a:active, 
-button.link:active span {
-	color: #FFFFFF; 
-	text-decoration: none; 
-	background-color: #0259C4; 
-}
-
-/* @group Font families */
-
-body {
-	font-family: "helvetica neue", arial, helvetica, sans-serif;	
-
-}
-
-pre, code, kbd, tt, samp, tt {
-	font-family: "andale mono", monospace;
-}
-
-/* @end */
-
-/* @group Font sizes & margins */
-
-p, ul, ol, dl, address, table, pre, form, fieldset {
-	font-size: 1em /* 14px */;
-	margin-bottom: 1.5em; /* 21px */
-}
-
-/* size headings using classic scale of 16, 18, 24, 36 */
 
 h1 {
-	font-size: 2.571em /* 36px */;
-	line-height:1em /* 36px */;
-	margin-top:0.1667em /* 6px */;
-	margin-bottom:0.5833em /* 21px */;
-}
-h2 {
-	font-size:1.714em /* 24px */;
-	line-height:1.167em /* 28px */;
-	margin-top:1.75em /* 42px */;
-	margin-bottom:0.5833em /* 14px */;
-}
-h3 {
-	font-size:1.286em /* 18px */;
-	margin-top:1.556em /* 28px */;
-	margin-bottom:0.778em /* 14px */;
-}
-h4 {
-	font-size:1.143em /* 16px */;
-	margin-top:1.3125em /* 21px */;
-	margin-bottom:0.4375em /* 7px */; 
-}
-h5, h6 {
-	font-size:1em /* 14px */;
+    font-size:              22px;
+    margin:                 20px 0 25px;
+}
+h1 a {
+    color:                  inherit;
+}
+
+nav {
+    color:                  #a0a0a0;
+    font:                   13px Helvetica, Arial, sans-serif;
+    margin:                 38px 0;
+}
+nav ul {
+    border-bottom:          1px solid #b9b9b9;
+}
+nav li {
+    background:             #f2f2f2;
+    display:                inline-block;
+}
+nav li a, 
+nav li.selected {
+    display:                inline-block;
+    padding:                6px 25px 4px;
+    border:                 1px solid #b9b9b9;
+    border-top-left-radius: 3px;
+    border-top-right-radius:3px;
+    margin-bottom:          -1px;
+}
+nav li.selected {
+    background:             #fff;
+    border-bottom-color:    #fff;
+}
+nav p {
+    margin:                 11px 0;
+    position:               absolute;
+}
+nav p {
+    color:                  #a0a0a0;
+    font:                   13px Helvetica, Arial, sans-serif;
+    text-transform:         capitalize;
+}
+nav p span {
+    left:                   -999em;
+    position:               absolute;
+}
+nav p .selected {
+    position:               static;
+}
+nav p .yours {
+    border-left:            1px solid #a0a0a0;
+    margin-left:            0.6em;
+    padding-left:           0.5em;
+}
+
+#header,
+#header a {
+    color:                  #a0a0a0;
+    font:                   11px Helvetica, Arial, sans-serif;
+    text-align:             right;
+}
+#header span {
+    left:                   -999em;
+    position:               absolute;
+}
+#logout {
+    border-left:            1px solid #a0a0a0;
+    margin-left:            0.1em;
+    padding-left:           0.3em;
+    text-transform:         capitalize;
+}
+
+#search {
+    display:                inline-block;
+    margin-left:            8px;
+    position:               relative;
+}
+#search label {
+    left:                   -999em;
+    position:               absolute;
+}
+#search input {
+    background:             -webkit-gradient( linear, left top, left bottom, from(#eee), to(#fff), color-stop( 0.1, #fff ) );
+    border:                 1px solid #c9c9c9;
+    height:                 17px;
+    margin-top:             -2px;
+    padding:                2px;
+}
+#search input[type=Submit] {
+    left:                   -999em;
+    position:               absolute;
+}
+
+#blast {
+    font:                   13px Helvetica, Arial, sans-serif;
+}
+#blast input[type=text],
+#blast textarea,
+#blast input[type=submit] {
+    font-size:              20px;
+    padding:                8px 0 5px;
+}
+#blast input[type=text],
+#blast textarea {
+    background:             -webkit-gradient( linear, left top, left bottom, from(#e0e0e0), to(#fff), color-stop( 0.1, #fff ) );
+    border:                 1px solid #000;
+    margin:                 8px 0;
+    width:                  478px;
+    max-width:              478px;
 }
-
-/* @end */
-
-/* @group Lists */
-
-.prose ul, ul.xoxo, ul.xoxo ul {
-/* unordered lists more often DON'T require bullets except in extended bits of writing. Where bullets are required apply the .prose class to a container, or apply directly with .xoxo */
-	list-style-type: disc;
-	margin-left: 1.5em; /* 21px */
-}
-
-ol {	/* ordered lists usually DO require (numbered) bullets */
-	list-style-type: decimal;
-	margin-left: 2em; /* 28px */
-}
-
-dt {
-	font-weight: bold;
-	margin-top: 1.5em; /* 21px */
-}
-
-ul ul, ol ol, ol ul, ul ol {
-	margin-bottom: 0;
-}
-
-/* @end */
-
-/* @group Tables */
-
-table {
-	border-bottom: 1px solid #666;
-}
-
-caption {
-	font-weight: bold;
-	padding-bottom: 0.4375em; /* 7px */
-	font-size:1.144em; /* 16px */
-}
-
-thead th {
-	border-top: 1px solid #666;
-	border-bottom: 3px solid #666;
-	padding-top: 0;
-	padding-bottom: 0.5em; /* 7px */
-}
-
-tbody {
-	border-top: 3px solid #666;	/* not rendered in IE6/7 */
-}
-
-tbody tr th, tbody tr td {
-	border-top: 1px solid #ddd;
-}
-
-th, td {
-	text-align: left;
-	padding: 0.286em 0.5em 0.214em 0.5em; /* 4px 7px 3px 7px */
-}
-
-/* @end */
-
-/* @group Blockquotes */
-
-blockquote {
-	font-style: italic;
-	margin:0  1.5em  1.5em 1.5em; /* 21px */
-}
-
-p+p+blockquote {
-	margin-top: 1.5em /* 21px */;
-}
-
-blockquote cite, blockquote em {
-	font-style: normal;
-}
-
-/* @end */
-
-/* @group Other styling */
-
-address {
-	font-style: normal;
-}
-
-ins {
-	text-decoration: underline;
-}
-
-del {
-	text-decoration: line-through;
-}
-
-/* @end */
-
-/* @end */
-
-/* @group Helper styles */
-
-/* @group Forms */
-
-/* @group Containers */
-
-form .container {
-	margin-bottom: 1.5em; /* 21px */
-}
-
-
-/* @group Fieldsets */
-
-fieldset {
-	border: 1px solid #ccc;
-	padding: 0 1.5em 1em 1.5em; /* 0 21px 14px 21px */
-}
-
-legend {
-	font-weight: bold;
-}
-
-form fieldset .container {
-	margin-top: 1em; /* 14px */
-	margin-bottom:0;
-	position: relative;
-}
-
-/* @end */
-
-/* @end */
-
-/* @group Labels */
-
-label {
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.meta-label {
-	font-weight: bold;
-	margin-bottom: 0;
-}
-
-.multi-container label, 
-.radio-container label, 
-.checkbox-container label {
-	font-weight: normal;
-}
-
-.radio-container label, 
-.checkbox-container label {
-	display: block;
-}
-
-.compact label {
-	display: inline;
-}
-
-/* @end */
-
-/* @group Meta */
-
-form .help {
-	display: block;
-	color: #777;
-	font-style: normal;
-	font-size: 0.857em; /* 12px */
-}
-
-/* @end */
-
-/* @group Form controls */
-
-input, textarea, select, button {
-	font-family: inherit;
-	font-size: 1em;
-	line-height: inherit;
-}
-
-select {
-	background-color: #fff; /* fixes bug in Opera which inherits bgcolor from container */
-}
-
-textarea,
-input[type='text'],
-input[type='password'],
-select {
-	border-width: 1px;
-	border-style: solid;
-	border-top-color: #999;
-	border-left-color: #999;
-	border-bottom-color: #ccc;
-	border-right-color: #ccc;
-	padding: 0 1px 1px 1px;
-}
-
-textarea:focus, 
-input[type='text']:focus, 
-input[type='password']:focus, 
-select:focus {
-	border-color: #CCC;
-	outline: 2px solid #ffffaa;
-}
-
-input.short {
-	width: 4em;
-}
-
-input.medium, textarea.medium {
-	width: 12em;
-}
-
-input.long, textarea.long {
-	width: 30em;
-}
-
-textarea {
-	width: 99%;
-	display: block;
-}
-
-button {
-	overflow: visible;
-	cursor: pointer;
-}
-
-.button-container input {
-	font-weight: bold;
-}
-
-.button-container input.cancel {
-	font-weight: normal;
-}
-
-button.link {
-	border: 0;
-	padding: 0;
-	background-color: #fff;
-	font-weight: normal;
-	cursor: pointer;
-	width: auto;
-	overflow: visible;
-}
-
-/* accessibility feature, resize check and radio inputs */
-.radio-container input, 
-.checkbox-container input {
-	width: 1em;
-	height: 1em;
-}
-
-/* @end */
-
-/* @end */
-
-/* @end */
-
-/* @group Page structure */
-
-#content {
-    background-color: white;
-	border: 1em solid #D4984D;
-	-moz-border-radius: 0 60px 0 0;
-	-webkit-border-top-right-radius:60px;
-	border-radius: 0 60px 0 0;
-	padding: 4%;
-}
-
-#nav {
-	font-size: 0.8em;
-    margin-bottom: 1em;
-    margin-left: 1.25em;
-    color: white;
-    line-height: 1;
-}
-
-#nav strong {
-	font-style: italic;
-}
-
-#nav a:link,
-#nav a:visited,
-#nav a:hover,
-#nav a:active,
-#nav a:focus {
-	color: white;
-	background: none;
-	text-decoration: none;
-	border-bottom: 1px solid;
-}
-
-#nav a:hover,
-#nav a:active,
-#nav a:focus {
-	border-bottom-style: dotted;
-}
-
-
-/* @end */
-/* @group Page Components */
-
-/* @group Head wrapper */
-
-.headwrap h2,
-.headwrap p {
-	display: inline;
-}
-.headwrap p {
-	padding-left: 1em;
-}
-.headwrap {
-	padding-bottom: 1em;
-}
-
-h3 {
-	margin: 0.55em 0 0.1em 0;
-	padding: 0;
-	border-top: 2px dotted #D4984D;
-	font-size: 1em;
+#blast textarea {
+    font-family:            monospace;
 }
-
-/* @group Blast */
-
-div.blast {
-     clear: both;
-     padding-bottom: 1em;
-     overflow: hidden;
-     padding-left: 2em;
-     position: relative;
-     border-width: 1px 0 0 0;
-     border-style: dotted;
-     border-color: rgba(255, 255, 255, 0.5);
-     margin-bottom: -1px;
+#blast input[type=submit] {
+    background:             #c19958;
+    background:             -webkit-gradient( linear, left top, left bottom, from(#d8bf94), to(#c19958), color-stop( 0.03, #c19958 ) );
+    border:                 1px solid #7c6235;
+    border-radius:          3px;
+    color:                  #fff;
+    margin-left:            5px;
+    position:               relative;
+    top:                    2px;
+    width:                  150px;
+    -webkit-box-shadow:     none;
 }
-
-div.first-on-day {
-	padding-left: 0;
-	border-bottom: 2px dotted #D4984D;
-	padding-bottom: 1em;
-    margin-bottom: 1em;
-}
-div.first-on-day .inner {
-     position: relative;
-     overflow: hidden;
-     padding-left: 2em;
-     padding-bottom: 1em;
+#blast .extended a.active {
+    color:                  #a0a0a0;
 }
-
-div.done span.message {
-	text-decoration: line-through;
+#blast .attach-file {
+    border-left:            1px solid #c19958;
+    margin-left:            0.6em;
+    padding-left:           0.5em;
 }
 
-div.avatar {
-    width: 1em;
-    height: 500em;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 
-.byline {
-	font-size: 0.8em;
-	color: #666;
+#blasts li {
+    margin:                 22px 0 22px 62px;
+    min-height:             48px;
+    position:               relative;
 }
-
-.created {
-	white-space: nowrap;
+#blasts img {
+    left:                   -60px;
+    position:               absolute;
+    top:                    0;
 }
-
-/* @end */
-
-/* @group Meta */
 
-p.meta {
-	margin: 0 0 2em 0;
-	font-size: 0.8em;
-	color: #27649F;
+#blasts div form,
+#blasts p {
+    display:                inline-block;
 }
-
-/* @end */
-
-/* @group Blast Form */
-form.blast {
-	margin-bottom: 0;
-	font-size: 1.5em;
-	width: 100%;
-	overflow: hidden;
+#blasts div form {
+    height:                 20px;
+    margin-bottom:          -5px;
 }
-
-form.blast input[type='text'] {
-	background-color: #C6E2FD;
-	padding:0.4em 0.5em 0.3em;
-	line-height: 1.5;
-	vertical-align: middle;
-	width: 70%;
-	float: left;
-	border: 1px solid #27649F;
+#blasts .done {
+    opacity:                0.3;
 }
-
-form.blast input[type='text']:focus {
-	outline: none;
-	background-color: white;
-}
-form.blast .submit {
-	background-color: #27649F;
-	border: 3px solid #5697D5;
-	line-height: 1.5;
-	-moz-border-radius: 0 20px 0 0;
-	-webkit-border-top-right-radius: 20px;
-	border-radius: 0 20px 0 0;
-	color: white;
-	padding: 0.2em 1em 0.2em 0.5em;
-	float: left;
-	margin-left: 2%;
-	width: 4em;
-	text-align: center;
-	overflow: visible;
-	cursor: pointer;
+#blasts .done p {
+    text-decoration:        line-through;
 }
-
-form.blast .container {
-	margin-bottom: 0;
+#blasts .meta,
+#blasts .favourite,
+#blasts .reply-to {
+    color:                  #a0a0a0;
+    display:                inline-block;
+    font:                   11px Helvetica, Arial, sans-serif;
 }
-
-form.blast div#extended {
-	clear: both;
-}
-form.blast div#extended textarea {
-	background-color: #C6E2FD;
-	padding:0.8em 1em 0.6em;
-	line-height: 1.5;
-	vertical-align: middle;
-	width: 70%;
-	border: 1px solid #27649F;
-	font-family: courier;
-	font-size: 0.5em;
-	height: 15em;
+#blasts .meta a,
+#blasts .favourite button,
+#blasts .reply-to a {
+    color:                  #a0a0a0;
 }
-
-form.donebox div, form.donebox {
-	display: inline;
+#blasts .favourite,
+#blasts .reply-to {
+    border-left:            1px solid #a0a0a0;
+    margin-left:            0.1em;
+    padding-left:           0.3em;
 }
-form.donebox input, img.donebox {
-	vertical-align: middle;
+.favourite button {
+    background:             none;
+    border:                 none;
 }
-img.donebox {
-	opacity: 0.5;
+.favourite button span {
+    left:                   -999em;
+    position:               absolute;
 }
-
-form.deleteform, form.deleteform div, form.deleteform input {
-	display: inline;
+.favourite button:hover,
+.favourite button:focus,
+.favourite button:active {
+    cursor:                 pointer;
+    text-decoration:        underline;
 }
-
-/* @end */
 
 
 
-/* @end */
-/* @group Overrides */
-
-/* @end */
-
-pre.extended {
-	margin-top: 2em;
-	width: 90%;
-	overflow: auto;
-}
-
-#attach {
-    font-size: 0.6em;
-}

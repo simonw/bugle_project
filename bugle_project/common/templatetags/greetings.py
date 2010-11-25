@@ -24,6 +24,7 @@ greetings = [
     'Ah, {{ name }}, this time the advantage is mine.',
     'Fuck yeah, {{ name }}!',
     'You look like use need a drink, {{ name }}.',
+    'Well, hello there {{ name }}.',
 ]
 
 @register.simple_tag

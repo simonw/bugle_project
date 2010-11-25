@@ -260,10 +260,29 @@ class SearchView(TimelineView):
         return blasts
     
     def get_resource(self, request):
-        page = self.get_page(request)
-        tweets = []
+        output = {
+            'results': [],
+            'since_id': None,
+            'max_id': None, # not supported
+            'refresh_url': '?' + request.GET.urlencode(),
+            'results_per_page': None,
+            'next_page': None,
+            'completed_in': 0,
+            'page': int(request.GET.get('page', 1)),
+            'query': urllib.quote(request.GET.get('q', '')),
+        }
+        page = None
+        try:
+            page = self.get_page(request)
+        except Http404:
+            pass
+        # If the page doesn't exist or no query has been supplied, return an
+        # empty result set instead of 404ing
+        if not page or not request.GET.get('q', None):
+            return output
+
         for blast in page.object_list:
-            d = {
+            tweet = {
                 'text': self.get_text(blast),
                 'to_user_id': None,
                 'to_user': None,
@@ -277,31 +296,21 @@ class SearchView(TimelineView):
                 'created_at': datetime_to_twitter(blast.created),
             }
             if blast.in_reply_to:
-                d['to_user_id'] = blast.in_reply_to.user.id
-                d['to_user'] = blast.in_reply_to.user.username
-            tweets.append(d)
+                tweet['to_user_id'] = blast.in_reply_to.user.id
+                tweet['to_user'] = blast.in_reply_to.user.username
+            output['results'].append(tweet)
         next_page_dict = request.GET.copy()
         next_page_dict['page'] = page.number + 1
-        d = {
-            'results': tweets,
-            'since_id': None,
-            'max_id': None, # not supported
-            'refresh_url': '?' + request.GET.urlencode(),
-            'results_per_page': None,
-            'next_page': '?' + next_page_dict.urlencode(),
-            'completed_in': 0,
-            'page': page.number,
-            'query': urllib.quote(request.GET.get('q', '')),
-        }
+        output['next_page'] = '?' + next_page_dict.urlencode()
         try:
-            d['since_id'] = int(request.GET['since_id'])
+            output['since_id'] = int(request.GET['since_id'])
         except (KeyError, ValueError):
             pass
         try:
-            d['results_per_page'] = int(request.GET['rpp'])
+            output['results_per_page'] = int(request.GET['rpp'])
         except (KeyError, ValueError):
             pass
-        return d
+        return output
 
 
 class StatusUpdateView(View):

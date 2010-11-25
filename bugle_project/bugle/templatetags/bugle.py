@@ -7,7 +7,7 @@ import urllib
 register = template.Library()
 
 username_re = re.compile('@[0-9a-zA-Z]+')
-hashtag_re = re.compile('(?:^|\s)(#\S+)')
+hashtag_re = re.compile('(^|\s)(#\S+)')
 
 @register.filter
 def buglise(s):
@@ -26,9 +26,10 @@ def buglise(s):
     s = username_re.sub(replace_username, s)
 
     s = hashtag_re.sub(
-        lambda m: '<a href="/search/?q=%s">%s</a>' % (
-            urllib.quote(m.group(0)), 
-            m.group(0),
+        lambda m: '%s<a href="/search/?q=%s">%s</a>' % (
+            m.group(1),
+            urllib.quote(m.group(2)), 
+            m.group(2),
         ),
         s
     )

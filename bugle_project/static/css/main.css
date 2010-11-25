@@ -208,6 +208,10 @@ nav p .yours {
 #blasts p {
     display:                inline-block;
 }
+#blasts.solo div form,
+#blasts.solo p {
+    display:                inline;
+}
 #blasts div form {
     height:                 20px;
     margin-bottom:          -5px;

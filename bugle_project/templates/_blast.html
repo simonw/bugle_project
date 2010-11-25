@@ -69,3 +69,12 @@
       <button>Delete</button>
   </form>
 {% endif %}
+{% ifequal section "favourites" %}
+{% if blast.favourited_by.all %}
+<p class="favourited">Favourited by
+{% for fave_user in blast.favourited_by.all %}
+{% if not forloop.first %}{% if not forloop.last %}, {% else %} and {% endif %}{% endif %}{% ifequal user fave_user %}you{% else %}{{ fave_user }}{% endifequal %}
+{% endfor %}
+</p>
+{% endif %}
+{% endifequal %}

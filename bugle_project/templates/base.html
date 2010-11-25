@@ -14,7 +14,6 @@
     {% endif %}
     {% include "_search_form.html" %}
   </div>
-  
   <h1>{% greeting user %}</h1>
 
   {% include "_blast_form.html" %}
@@ -22,6 +21,7 @@
   {% include "_nav.html" %}
   
   {% block content %}{% endblock %}
+  {% endblock %}
   <script type="text/javascript" src="/static/js/jquery-1.3.2.js"></script>
   <script type="text/javascript" src="/static/js/global.js"></script>
 </body>

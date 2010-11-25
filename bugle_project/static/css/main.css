@@ -16,6 +16,7 @@ input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inher
 input,button,textarea,select{*font-size:100%;}
 
 body {
+    -webkit-font-smoothing: antialiased;
     margin:                 20px 0 20px auto;
     padding:                0 160px 0 10px;
     width:                  640px;
@@ -29,6 +30,12 @@ a:hover,
 a:focus,
 a:active {
     text-decoration:        underline;
+}
+em {
+    font-style: italic;
+}
+strong {
+    font-weight: bold;
 }
 
 h1 {
@@ -150,6 +157,7 @@ nav p .yours {
     border:                 1px solid #7c6235;
     border-radius:          3px;
     color:                  #fff;
+    cursor:                 pointer;
     margin-left:            5px;
     position:               relative;
     top:                    2px;
@@ -166,15 +174,23 @@ nav p .yours {
 }
 
 
-#blasts li {
-    margin:                 22px 0 22px 62px;
+#blasts li,
+#blasts.solo {
+    height:                 auto;
     min-height:             48px;
+    margin:                 22px 0 32px 62px;
     position:               relative;
 }
 #blasts img {
     left:                   -60px;
     position:               absolute;
     top:                    0;
+}
+#blasts.solo {
+    margin:                 100px 0;
+}
+#blasts.solo div p {
+    font-size:              48px;
 }
 
 #blasts div form,
@@ -193,11 +209,15 @@ nav p .yours {
 }
 #blasts .meta,
 #blasts .favourite,
+#blasts .favourited,
 #blasts .reply-to,
 #blasts .delete {
     color:                  #a0a0a0;
     display:                inline-block;
     font:                   11px Helvetica, Arial, sans-serif;
+}
+#blasts .favourited {
+    display:                block;
 }
 #blasts .meta a,
 #blasts .favourite button,

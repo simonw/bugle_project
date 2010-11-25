@@ -2,9 +2,8 @@
 
 {% block title %}A blast from {{ blast.user }}{% endblock %}
 
-{% block content %}
-<h2>Blast</h2>
-<div class="blasts">
+{% block outer %}
+<div id="blasts" class="solo">
 {% include "_blast.html" %}
 </p>
 {% if blast.extended %}

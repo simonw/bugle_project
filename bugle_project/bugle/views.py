@@ -93,7 +93,7 @@ from django import forms
 class BlastForm(forms.ModelForm):
     class Meta:
         model = Blast
-        fields = ('message', 'extended', 'attachment')
+        fields = ('message', 'extended', 'attachment', 'in_reply_to')
 
 def post(request):
     if request.user.is_anonymous():
@@ -337,3 +337,5 @@ def favourite(request):
     if verb == 'notfave':
         blast.favourited_by.remove(request.user)
     return redirect(request.POST.get('back_to', '') or '/')
+
+

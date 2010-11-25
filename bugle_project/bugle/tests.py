@@ -1,23 +1,26 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
-"""
-
+from bugle_project.bugle.models import Blast
+from django.contrib.auth.models import User
 from django.test import TestCase
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
-
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
+class PostTest(TestCase):
+    def test_in_reply_to(self):
+        u = User(username='test')
+        u.set_password('test')
+        u.save()
+        b1 = Blast.objects.create(
+            user=u,
+            message='Hello',
+        )
+        self.assertTrue(self.client.login(username='test', password='test'))
+        res = self.client.post('/post/', {
+            'message': 'Why hello there', 
+            'in_reply_to': b1.pk
+        })
+        self.assertRedirects(res, '/')
+        b2 = Blast.objects.all()[1]
+        self.assertNotEqual(b1, b2)
+        self.assertEqual(b1.user, u)
+        self.assertEqual(b2.user, u)
+        self.assertEqual(b1, b2.in_reply_to)
+        
 

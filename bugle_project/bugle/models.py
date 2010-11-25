@@ -28,6 +28,7 @@ class Blast(models.Model):
     favourited_by = models.ManyToManyField(
         User, related_name = 'favourites', blank = True
     )
+    in_reply_to = models.ForeignKey('self', blank=True, null=True)
     
     def attachment_filename(self):
         if self.attachment:

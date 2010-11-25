@@ -94,7 +94,7 @@ class View(object):
             text += ' http://%s/blast/%s/' % (self.current_site.domain, blast.id)
         if blast.attachment:
             text += ' [ http://%s%s ]' % (self.current_site.domain, blast.attachment.url)
-        return {
+        d = {
             'contributors': None,
             'geo': None,
             'in_reply_to_status_id': None,
@@ -111,6 +111,11 @@ class View(object):
             'truncated': False,
             'text': text,
         }
+
+        if blast.in_reply_to:
+            d['in_reply_to_status_id'] = blast.in_reply_to.pk
+
+        return d
         
     def tweeterise_user(self, request, user):
         user_count = User.objects.count()

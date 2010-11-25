@@ -1,0 +1,3 @@
+dependencies/Django-1.2.3.tar.gz
+dependencies/South-0.7.2.tar.gz
+

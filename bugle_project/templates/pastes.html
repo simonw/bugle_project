@@ -1,0 +1,13 @@
+{% extends "profile_base.html" %}
+
+{% block title %}{{ profile }}'s pastes on bugle{% endblock %}
+
+{% block inner %}
+<div class="headwrap">
+<h2>{{ profile }}'s pastes</h2>
+<p>See <a href="/pastes/">everyone's pastes</a></p>
+</div>
+
+{% include "_blasts.html" %}
+
+{% endblock %}

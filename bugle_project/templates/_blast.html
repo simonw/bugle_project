@@ -1,0 +1,33 @@
+{% load bugle %}<div class="blast{% if blast.is_todo %} todo{% endif %}{% if blast.done %} done{% endif %}">
+	    <div style="background-color: #{{ blast.colour }};" class="avatar"></div>
+	    {% if blast.is_todo %}
+			{% if blast.viewing_user_can_mark_done %}
+				<form action="/toggle/" method="POST" class="donebox">
+					<input type="image" src="/static/img/{{ blast.checkbox_img_name }}.png"
+						name="{{ blast.checkbox_verb }}-{{ blast.pk }}" alt="{{ blast.checkbox_img_name }}">
+						<input type="hidden" name="back_to" value="{{ request.path }}">
+				</form>
+			{% else %}
+				{{ blast.checkbox_img }}
+			{% endif %}
+		{% endif %}
+	    <span class="message">{% if blast.is_todo %}{{ blast.message_without_todo|urlize|buglise|linebreaksbr }}{% else %}{{ blast.message|urlize|buglise|linebreaksbr }}{% endif %}</span>{% if blast.extended %} <a href="/blast/{{ blast.pk }}/">(view full blast)</a>{% endif %}{% if blast.attachment %} [<a href="{{ blast.attachment.url }}">{{ blast.attachment_filename }}</a>]{% endif %}
+	    <span class="byline">posted by <a href="/{{ blast.user }}/">{{ blast.user }}</a>
+	    on <span class="created">{{ blast.created|date:"jS F" }} 
+	    at {{ blast.created|date:"H:i" }}</span>
+		{% if blast.user_can_favourite %}
+			<form action="/favourite/" method="POST" class="donebox">
+			<div>
+				<input type="image" src="/static/img/{{ blast.favourite_img_name }}.png"
+					name="{{ blast.favourite_verb }}-{{ blast.pk }}" alt="{{ blast.favourite_img_name }}">
+					<input type="hidden" name="back_to" value="{{ request.path }}">
+				</div>
+			</form>
+		{% endif %}
+	    {% if show_delete %}
+	    <form action="/delete/" method="post" class="deleteform">
+	        <div><input type="hidden" name="id" value="{{ blast.id }}">
+	        <input type="submit" value="delete"></div>
+	    </form>
+	    {% endif %}
+</div>

@@ -1,0 +1,14 @@
+{% if not user.is_anonymous %}
+<form action="/post/" method="post" class="blast" 
+		enctype="multipart/form-data">
+	<div class="container">
+		<input type="text" name="message" value="{{ initial_blast }}">
+		<input type="submit" class="submit" value="Blast!">
+	</div>
+	<div class="container" style="clear: both;">
+		<div id="extended"><textarea name="extended"></textarea></div>
+		<div id="attach"><label>Attach a file: <input type="file" name="attachment"></label></div>
+	</div>
+</form>
+<p class="meta"></p>
+{% endif %}

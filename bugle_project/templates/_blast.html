@@ -38,8 +38,8 @@
 <p class="meta">
   Blasted
   by <cite><a href="/{{ blast.user }}/">
-    <img src="{{ blast.user.twitter_profile.profile_image.path }}"
-         width="48" height="48" alt="">{{ blast.user }}
+     {% if blast.user.twitter_profile.profile_image %}<img src="{{ blast.user.twitter_profile.profile_image.url }}"
+        width="48" height="48" alt="">{% endif %}{{ blast.user }}
   </a></cite>
   on <a href="/blast/{{ blast.pk }}/">
     <span class="date">{{ blast.created|date:"jS F" }} </span>

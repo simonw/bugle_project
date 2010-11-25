@@ -1,4 +1,4 @@
-from twitter_api.views import TimelineView, LoginRequiredTimelineView, UserTimelineView, UsersShowView, VerifyCredentialsView, RateLimitStatusView, MentionsView, FavoritesView, FavoritesCreateView, FavoritesDestroyView, StatusUpdateView, CurrentTrendsView
+from twitter_api import views
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
@@ -30,18 +30,19 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
     
     # Twitter API
-    (r'^(?:1/)?statuses/public_timeline\.(?P<format>json|xml)', TimelineView()),
-    (r'^(?:1/)?statuses/(?:home|friends)_timeline\.(?P<format>json|xml)', LoginRequiredTimelineView()),
-    (r'^(?:1/)?statuses/user_timeline\.(?P<format>json|xml)', UserTimelineView()),
-    (r'^(?:1/)?statuses/(?:mentions|replies)\.(?P<format>json|xml)', MentionsView()),
-    (r'^(?:1/)?statuses/update\.(?P<format>json|xml)', StatusUpdateView()),
-    (r'^(?:1/)?users/show\.(?P<format>json|xml)', UsersShowView()),
-    (r'^(?:1/)?favorites/create/(?P<id>.+?)\.(?P<format>json|xml)', FavoritesCreateView()),
-    (r'^(?:1/)?favorites/destroy/(?P<id>.+?)\.(?P<format>json|xml)', FavoritesDestroyView()),
-    (r'^(?:1/)?favorites(?:/(?P<id>.+?))?\.(?P<format>json|xml)', FavoritesView()),
-    (r'^(?:1/)?account/verify_credentials\.(?P<format>json|xml)', VerifyCredentialsView()),
-    (r'^(?:1/)?account/rate_limit_status\.(?P<format>json|xml)', RateLimitStatusView()),
-    (r'^(?:1/)?trends/current\.(?P<format>json|xml)', CurrentTrendsView()),
+    (r'^(?:1/)?statuses/public_timeline\.(?P<format>json|xml)', views.TimelineView()),
+    (r'^(?:1/)?statuses/(?:home|friends)_timeline\.(?P<format>json|xml)', views.LoginRequiredTimelineView()),
+    (r'^(?:1/)?statuses/user_timeline\.(?P<format>json|xml)', views.UserTimelineView()),
+    (r'^(?:1/)?statuses/(?:mentions|replies)\.(?P<format>json|xml)', views.MentionsView()),
+    (r'^(?:1/)?statuses/update\.(?P<format>json|xml)', views.StatusUpdateView()),
+    (r'^(?:1/)?users/show\.(?P<format>json|xml)', views.UsersShowView()),
+    (r'^(?:1/)?search\.(?P<format>json|xml)', views.SearchView()),
+    (r'^(?:1/)?favorites/create/(?P<id>.+?)\.(?P<format>json|xml)', views.FavoritesCreateView()),
+    (r'^(?:1/)?favorites/destroy/(?P<id>.+?)\.(?P<format>json|xml)', views.FavoritesDestroyView()),
+    (r'^(?:1/)?favorites(?:/(?P<id>.+?))?\.(?P<format>json|xml)', views.FavoritesView()),
+    (r'^(?:1/)?account/verify_credentials\.(?P<format>json|xml)', views.VerifyCredentialsView()),
+    (r'^(?:1/)?account/rate_limit_status\.(?P<format>json|xml)', views.RateLimitStatusView()),
+    (r'^(?:1/)?trends/current\.(?P<format>json|xml)', views.CurrentTrendsView()),
     (r'^(?:1/)?oauth/access_token', 'twitter_api.views.oauth_access_token'),
     
     (r'^admin/', include(admin.site.urls)),

@@ -23,7 +23,7 @@ greetings = [
     'Well then, {{ name }}&hellip;',
     'Ah, {{ name }}, this time the advantage is mine.',
     'Fuck yeah, {{ name }}!',
-    'You look like use need a drink, {{ name }}.',
+    'Looks like you could use a drink, {{ name }}.',
     'Well, hello there {{ name }}.',
 ]
 

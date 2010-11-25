@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% load greetings %}<!DOCTYPE html>
 <html lang="en-GB">
 <head>
   <title>{% block outer_title %}{% block title %}{% endblock %} on bugle{% endblock %}</title>
@@ -15,13 +15,7 @@
     {% include "_search_form.html" %}
   </div>
   
-  <h1>
-    {% if not user.is_anonymous %}
-      What ho, <strong><a href="/{{ user }}/">{{ user }}</a></strong>!
-    {% else %}
-      What ho, stranger!
-    {% endif %}
-  </h1>
+  <h1>{% greeting user %}</h1>
 
   {% include "_blast_form.html" %}
 

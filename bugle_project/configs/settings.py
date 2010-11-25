@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'south',
     'bugle',
+    'common',
     'twitter_api',
 )
 

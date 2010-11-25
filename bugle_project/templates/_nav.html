@@ -31,7 +31,7 @@
     <li><a href="/files/">Files</a></li>
     {% endifequal %}
   </ul>
-{% ifnotequal request.path "/" %}
+{% if section %}
 {% if not user.is_anonymous %}
   <p>
       {% if profile %}
@@ -41,5 +41,5 @@
       {% endif %}
   </p>
 {% endif %}
-{% endifnotequal %}
+{% endif %}
 </nav>

@@ -2,10 +2,9 @@
 
 {% block title %}Everyone's favourites {% endblock %}
 
-{% block inner %}
+{% block inner %}<ol id="blasts">
 {% for blast in blasts %}
-	{% include "_blast.html" %}
-	<p><small>Favourited by {% for u in blast.favourited_by.all %}<a href="/{{ u }}/">{{ u }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</small></p>
-{% endfor %}
+  <li>{% include "_blast.html" %}</li>
+{% endfor %}</ol>
 
 {% endblock %}

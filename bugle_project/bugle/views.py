@@ -57,14 +57,13 @@ def prepare_blasts(blasts, user=None, bundle=False):
     
     return blasts
 
-def homepage(request, autorefresh=False):
+def homepage(request):
     return render(request, 'homepage.html', {
         'blasts': prepare_blasts(
             Blast.objects.all().order_by('-created')[:NUM_ON_HOMEPAGE],
             request.user, bundle=True
         ),
         'more_blasts': Blast.objects.count() > NUM_ON_HOMEPAGE,
-        'autorefresh': autorefresh,
         'initial_blast': request.GET.get('blast', ''),
     })
 
@@ -75,7 +74,6 @@ def all(request):
             bundle = True
         ),
         'more_blasts': False,
-        'autorefresh': False,
     })
 
 def blast(request, pk):
@@ -281,23 +279,6 @@ def all_files(request):
             Blast.objects.exclude(attachment = ''), request.user
         ),
     })
-
-message_template = Template("{% load bugle %}{{ msg|urlize|buglise }}")
-
-def since(request):
-    id = request.GET.get('id', 0)
-    blasts = Blast.objects.filter(id__gt = id).order_by('-created')
-    return HttpResponse(simplejson.dumps([{
-        'user': str(b.user),
-        'message': message_template.render(Context({
-            'msg': b.message,
-        })),
-        'created': str(b.created),
-        'date': dateformat.format(b.created, 'jS F'),
-        'time': dateformat.format(b.created, 'H:i'),
-        'colour': '#' + b.colour(),
-        'id': b.id,
-    } for b in blasts]), content_type = 'text/plain')
 
 def stats(request):
     blast_dates = list(Blast.objects.values_list('created', flat=True))

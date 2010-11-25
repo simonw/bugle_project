@@ -2,47 +2,9 @@
 
 {% block outer_title %}bugle{% endblock %}
 
-{% block extra_head %}
-{% if autorefresh %}
-<script type="text/javascript">
-jQuery(function($) {
-    var last_id = {{ blasts.0.id }};
-    function refresh() {
-        $.getJSON('/autorefresh/since/?id=' + last_id, function(obj) {
-            var divs_to_add = [];
-            $.each(obj, function() {
-                last_id = this.id;
-                var div = $('#blasts .blast:first').clone();
-                if (this.first_on_day) {
-                    div.addClass('first-on-day');
-                } else {
-                    div.removeClass('first-on-day');
-                }
-                div.find('div.box').css({
-                    'background-color': this.colour
-                });
-                div.find('.message').html(this.message);
-                div.find('.byline a').text(this.user).attr(
-                    'href', '/' + this.user + '/'
-                );
-                div.find('.created').text(this.date + ' at ' + this.time);
-                div.hide();
-                $('#blasts').prepend(div);
-                div.slideDown();
-            })
-        });
-    }
-    setInterval(refresh, 15 * 1000);
-});
-</script>
-{% endif %}
-{% endblock %}
-
 {% block content %}
-
 {% include "_blasts.html" %}
 {% if more_blasts %}
 <a href="/all">All blasts</a>
 {% endif %}
-
 {% endblock %}

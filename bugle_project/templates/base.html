@@ -7,9 +7,18 @@
 </head>
 <body><div id="body">
   <a href="/" id="bugle">
+    {% if not user.is_anonymous %}
+    <img src="/static/img/bugle-strings.gif" alt="bugle"
+      width="409" height="270">
+    {% else %}
     <img src="/static/img/bugle.gif" alt="bugle"
       width="409" height="270">
+    {% endif %}
   </a>
+  {% if not user.is_anonymous %}
+    <img src="{{ user.twitter_profile.profile_image.url }}" alt=""
+          width="180" height="180" id="user">
+  {% endif %}
   <div id="header">
     {% if not user.is_anonymous %}
       You’re logged in as <strong><a href="/{{ user }}/">{{ user }}</a></strong> <span>(</span><a href="/logout/" id="logout">log out</a><span>?)</span>

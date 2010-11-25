@@ -26,8 +26,14 @@ body {
     width:                  640px;
 }
 #bugle {
-    float:                  left;
-    margin:                 53px 0 0 -429px;
+    margin-left:            -429px;
+    position:               absolute;
+    top:                    53px;
+}
+#user {
+    margin-left:            -314px;
+    position:               absolute;
+    top:                    290px;
 }
 
 a {

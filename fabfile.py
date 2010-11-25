@@ -84,8 +84,11 @@ def deploy():
             run('mv releases/current releases/previous')
         run('ln -s %s releases/current' % env.version_path)
     
-    run('rm -f %(version_path)s/%(project_name)s/static/admin' % env)
-    run('ln -s %(version_path)s/%(project_name)s_ve/lib/python2.5/site-packages/django/contrib/admin/media %(version_path)s/%(project_name)s/static/admin' % env)
+        run('rm -f %(version_path)s/%(project_name)s/static/admin' % env)
+        run('ln -s %(version_path)s/%(project_name)s_ve/lib/python2.5/site-packages/django/contrib/admin/media %(version_path)s/%(project_name)s/static/admin' % env)
+        run('rm -f %(version_path)s/%(project_name)s/uploads' % env)
+        run('ln -s %(path)s/uploads %(version_path)s/%(project_name)s/uploads' % env)
+
     
     restart_apache()
     

@@ -14,6 +14,7 @@
     {% endif %}
     {% include "_search_form.html" %}
   </div>
+  {% block outer %}
   <h1>{% greeting user %}</h1>
 
   {% include "_blast_form.html" %}

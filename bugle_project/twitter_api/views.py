@@ -127,22 +127,26 @@ class View(object):
             d['in_reply_to_status_id'] = blast.in_reply_to.pk
 
         return d
-        
-    def tweeterise_user(self, request, user):
-        user_count = User.objects.count()
+
+    def get_profile_image(self, user):
         profile_image = ''
         if user.username != 'subversion':
             try:
                 profile_image = 'http://' + self.current_site.domain + user.twitter_profile.profile_image.url
             except TwitterProfile.DoesNotExist:
                 pass
+        return profile_image
+
+        
+    def tweeterise_user(self, request, user):
+        user_count = User.objects.count()
         return {
             'profile_sidebar_fill_color': 'ffffff',
             'description': '',
             'location': 'Fort.',
             'notifications': False,
             'profile_background_tile': False,
-            'profile_image_url': profile_image,
+            'profile_image_url': self.get_profile_image(user),
             'statuses_count': user.blasts.count(),
             'profile_sidebar_border_color': 'eeeeee',
             'profile_use_background_image': True,
@@ -269,6 +273,7 @@ class SearchView(TimelineView):
                 'from_user_id': blast.user.id,
                 'iso_language_code': 'en',
                 'source': 'Fort',
+                'profile_image_url': self.get_profile_image(blast.user),
                 'created_at': datetime_to_twitter(blast.created),
             }
             if blast.in_reply_to:

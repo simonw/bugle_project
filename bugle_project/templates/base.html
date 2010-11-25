@@ -6,6 +6,10 @@
 {% block extra_head %}{% endblock %}
 </head>
 <body><div id="body">
+  <a href="/" id="bugle">
+    <img src="/static/img/bugle.gif" alt="bugle"
+      width="409" height="270">
+  </a>
   <div id="header">
     {% if not user.is_anonymous %}
       You’re logged in as <strong><a href="/{{ user }}/">{{ user }}</a></strong> <span>(</span><a href="/logout/" id="logout">log out</a><span>?)</span>

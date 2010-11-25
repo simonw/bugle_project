@@ -18,6 +18,12 @@ greetings = [
     'How do you do, {{ name }}.',
     'Ah, {{ name }}, we meet again.',
     'Felicitations, {{ name }}.',
+    'So we meet again, {{ name }} (if that <em>is</em> your real name)',
+    'Pronto, {{ name }}.',
+    'Well then, {{ name }}&hellip;',
+    'Ah, {{ name }}, this time the advantage is mine.',
+    'Fuck yeah, {{ name }}!',
+    'You look like use need a drink, {{ name }}.',
 ]
 
 @register.simple_tag

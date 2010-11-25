@@ -193,18 +193,27 @@ nav p .yours {
 }
 #blasts .meta,
 #blasts .favourite,
-#blasts .reply-to {
+#blasts .reply-to,
+#blasts .delete {
     color:                  #a0a0a0;
     display:                inline-block;
     font:                   11px Helvetica, Arial, sans-serif;
 }
 #blasts .meta a,
 #blasts .favourite button,
-#blasts .reply-to a {
+#blasts .reply-to a,
+#blasts .delete button {
+    background:             none;
+    border:                 none;
     color:                  #a0a0a0;
+    cursor:                 pointer;
+}
+#blasts .delete button:hover {
+    text-decoration:        underline;
 }
 #blasts .favourite,
-#blasts .reply-to {
+#blasts .reply-to,
+#blasts .delete {
     border-left:            1px solid #a0a0a0;
     margin-left:            0.1em;
     padding-left:           0.3em;

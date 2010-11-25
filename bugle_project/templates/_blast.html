@@ -64,8 +64,8 @@
   <a href="?reply-to={{ blast.pk }}">Reply</a>
 </p>
 {% if show_delete %}
-  <form action="/delete/" method="post" class="deleteform">
+  <form action="/delete/" method="post" class="delete">
       <input type="hidden" name="id" value="{{ blast.id }}">
-      <input type="submit" value="delete">
+      <button>Delete</button>
   </form>
 {% endif %}

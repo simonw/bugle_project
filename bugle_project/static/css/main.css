@@ -16,9 +16,17 @@ input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inher
 input,button,textarea,select{*font-size:100%;}
 
 body {
+    margin:                 0 0 0 -419px;
+    padding:                0 0;
+}
+#body {
+    background:             #fff
+                            url( /static/img/bugle.gif )
+                            no-repeat
+                            0 53px;
     -webkit-font-smoothing: antialiased;
-    margin:                 20px 0 20px auto;
-    padding:                0 160px 0 10px;
+    margin:                 20px auto;
+    padding:                0 0 0 429px;
     width:                  640px;
 }
 
@@ -39,8 +47,11 @@ strong {
 }
 
 h1 {
-    font-size:              22px;
+    font-size:              26px;
     margin:                 20px 0 25px;
+}
+h1 strong {
+    font-weight:            normal;
 }
 h1 a {
     color:                  inherit;

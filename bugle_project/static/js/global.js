@@ -29,4 +29,8 @@ jQuery(function($) {
     extended_blasts.append(include_code);
     extended_blasts.append(attach_file);
     $( '#blast-base' ).append( extended_blasts );
+
+    $('#blasts .bundle > div').css('cursor', 'pointer').click(function () {
+        $(this).parent().children('ol').toggle();
+    });
 });

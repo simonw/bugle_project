@@ -2,9 +2,9 @@
 {% for blast in blasts %}
   {% if blast.is_bundle %}
     <li class="bundle">
-      {% for b in blast.blasts %}
-        <span title="{{ b.message }}">{{ b.short }}</span>{% if not forloop.last %}, {% endif %}
-      {% endfor %}
+      <div>{% for b in blast.blasts %}
+        {{ b.short }}{% if not forloop.last %}, {% endif %}
+      {% endfor %}</div>
       <ol>
       {% for blast in blast.blasts %}
         <li>{% include "_blast.html" %}</li>
@@ -16,3 +16,4 @@
   {% endif %}
 {% endfor %}
 </ol>
+

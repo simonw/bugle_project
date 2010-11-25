@@ -142,7 +142,7 @@ nav p .yours {
     max-width:              478px;
 }
 #blast textarea {
-    font-family:            monospace;
+    font-family:            Menlo, monospace;
 }
 #blast input[type=submit] {
     background:             #c19958;
@@ -208,6 +208,30 @@ nav p .yours {
     border-left:            1px solid #a0a0a0;
     margin-left:            0.1em;
     padding-left:           0.3em;
+}
+#blasts li {
+    min-height: 0;
+}
+#blasts .bundle {
+    margin: 0;
+    background-color: rgb(238, 238, 238);
+}
+#blasts .bundle div {
+    font-size: 12px;
+    font-family: Menlo, monospace;
+}
+#blasts .bundle > div {
+    padding: 12px;
+}
+#blasts .bundle ol {
+    display: none;
+}
+#blasts .bundle ol li {
+    margin: 0;
+    padding: 0 0 22px 50px;
+}
+#blasts .bundle .meta, #blasts .bundle form, #blasts .bundle .reply-to {
+    display: none;
 }
 .favourite button {
     background:             none;

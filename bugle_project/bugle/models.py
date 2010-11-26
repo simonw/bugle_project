@@ -1,7 +1,11 @@
+from bugle_project.common.faye import FayeClient
 import datetime
-from django.db import models
-from django.utils.safestring import mark_safe
+from django import template
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import models
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 import md5
 import re
 
@@ -127,6 +131,14 @@ class Blast(models.Model):
         if self.derive_is_broadcast() and not self.is_broadcast:
             self.is_broadcast = True
             self.save()
+
+        if settings.FAYE_ENABLED:
+            content = render_to_string('_blast.html', {
+                'blast': self,
+            })
+            FayeClient(fail_silently=False).publish('/blasts/all', {
+                'content': content,
+            })
     
     class Meta:
         ordering = ('-created',)

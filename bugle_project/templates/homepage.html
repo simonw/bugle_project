@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
 {% block outer_title %}bugle{% endblock %}
-
+{% block extra_js %}
+<script type="text/javascript">
+    $(function () {
+        var bugle = new Bugle.Live('#blasts', '{{ FAYE_URL }}', '/blasts/all');
+    });
+</script>
+{% endblock %}
 {% block content %}
 {% include "_blasts.html" %}
 {% if more_blasts %}

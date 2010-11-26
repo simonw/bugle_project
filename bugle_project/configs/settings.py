@@ -102,10 +102,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
+    'bugle_project.common.context_processors.faye_url',
 )
 
 SOUTH_TESTS_MIGRATE = True
 SKIP_SOUTH_TESTS = True
+
+FAYE_ENABLED = True
+FAYE_URL = 'http://localhost:8001/faye'
 
 try:
     from local_settings import *

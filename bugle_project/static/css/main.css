@@ -272,6 +272,7 @@ nav p .yours {
 }
 #blasts .bundle > div {
     padding: 12px;
+    cursor: pointer;
 }
 #blasts .bundle ol {
     display: none;

@@ -4,7 +4,7 @@
 {% block extra_js %}
 <script type="text/javascript">
     $(function () {
-        var bugle = new Bugle.Live('#blasts', '{{ FAYE_URL }}', '/blasts/all');
+        var live = new Bugle.Live('#blasts', '{{ FAYE_URL }}', '/blasts/all');
     });
 </script>
 {% endblock %}

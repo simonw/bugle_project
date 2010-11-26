@@ -2,7 +2,7 @@ var Bugle = {};
 
 Bugle.Live = function (selector, url, channel) {
     var self = this;
-    self.selector = selector;
+    self.selector = $(selector);
     self.url = url;
     self.channel = channel;
 
@@ -13,10 +13,32 @@ Bugle.Live = function (selector, url, channel) {
 };
 
 Bugle.Live.prototype.handle = function (message) {
-    var blast = $('<li>'+message.content+'</li>');
-    blast.hide();
-    $(this.selector).prepend(blast);
-    blast.slideDown();
+    var blast;
+    var insert = false;
+    if (message.short) {
+        blast = this.selector.children().eq(0);
+        if (!blast.hasClass('bundle')) {
+            blast = $('<li class="bundle"><div></div><ol></ol>').appendTo(
+                this.selector
+            );
+            insert = true;
+        }
+        else {
+            blast.children('div').text(', ' + blast.children('div').text());
+        }
+        blast.children('div').text(message.short + blast.children('div').text());
+        blast.children('ol').append('<li>'+message.content+'</li>');
+
+    }
+    else {
+        blast = $('<li>'+message.content+'</li>');
+        insert = true;
+    }
+    if (insert) {
+        blast.hide();
+        this.selector.prepend(blast);
+        blast.slideDown();
+    }
 };
 
 
@@ -54,7 +76,7 @@ jQuery(function($) {
     $( '#blast-base' ).append( extended_blasts );
     $('#extended,#attach').hide();
 
-    $('#blasts .bundle > div').css('cursor', 'pointer').click(function () {
+    $('#blasts .bundle > div').live('click', function () {
         $(this).parent().children('ol').toggle();
     });
 });

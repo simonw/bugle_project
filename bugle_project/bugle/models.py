@@ -132,7 +132,7 @@ class Blast(models.Model):
             self.is_broadcast = True
             self.save()
 
-        if settings.FAYE_ENABLED:
+        if settings.FAYE_ENABLED and not self.short:
             content = render_to_string('_blast.html', {
                 'blast': self,
             })

@@ -1,3 +1,5 @@
 dependencies/Django-1.2.3.tar.gz
 dependencies/South-0.7.2.tar.gz
 dependencies/django-debug-toolbar-0.8.4.tar.gz
+dependencies/smartypants-1.6.0.3.tar.gz
+

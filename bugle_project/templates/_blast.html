@@ -1,4 +1,5 @@
 {% load bugle %}
+{% load typogrify %}
 <!-- <div class="blast{% if blast.is_todo %} todo{% endif %}{% if blast.done %} done{% endif %}"> -->
 <div{% if blast.done %} class="done"{% endif %}>
   {% if blast.is_todo %}
@@ -13,7 +14,7 @@
     <input type="checkbox" disabled>
     {% endif %}
     <p>
-      {{ blast.message|urlize|buglise|linebreaksbr }}
+      {{ blast.message|urlize|buglise|typogrify|linebreaksbr }}
       {% if not is_single and blast.extended %}
         &hellip;
         <a href="/blast/{{ blast.pk }}/">(see more)</a>
@@ -21,7 +22,7 @@
     </p>
   {% else %}
     <p>
-      {{ blast.message_without_todo|urlize|buglise|linebreaksbr }}
+      {{ blast.message_without_todo|urlize|buglise|typogrify|linebreaksbr }}
       {% if not is_single and blast.extended %}
         &hellip;
         <a href="/blast/{{ blast.pk }}/">(see more)</a>

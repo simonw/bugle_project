@@ -67,7 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'twitter_api.middleware.ghetto_oauth.GhettoOAuthMiddleware',
-#    'debug_middleware.DebugFooter',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'bugle_project.urls'
@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+    'debug_toolbar',
     'south',
     'bugle',
     'common',
@@ -110,6 +111,19 @@ SKIP_SOUTH_TESTS = True
 
 FAYE_ENABLED = True
 FAYE_URL = 'http://localhost:8001/faye'
+
+
+def show_toolbar_callback(request):
+    from django.conf import settings
+    return settings.DEBUG and ('__debug__' in request.path or 'debug' in request
+.GET)
+    
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar_callback,
+    #'SHOW_TEMPLATE_CONTEXT': False,
+    'INTERCEPT_REDIRECTS': False,
+}
+
 
 try:
     from local_settings import *

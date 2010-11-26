@@ -106,6 +106,8 @@ class Blast(models.Model):
         return re.sub(r'(?i)^todo:', '', self.message)
     
     def save(self, *args, **kwargs):
+        created = not self.id
+
         # Does it contain an iPhone Twitter image upload?
         image_upload_ids = image_upload_re.findall(self.message)
         if image_upload_ids:
@@ -132,12 +134,13 @@ class Blast(models.Model):
             self.is_broadcast = True
             self.save()
 
-        if settings.FAYE_ENABLED and not self.short:
+        if created and settings.FAYE_ENABLED and not self.short:
             content = render_to_string('_blast.html', {
                 'blast': self,
             })
             FayeClient().publish('/blasts/all', {
                 'content': content,
+                'short': self.short
             })
     
     class Meta:

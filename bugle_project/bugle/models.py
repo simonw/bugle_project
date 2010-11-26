@@ -136,7 +136,7 @@ class Blast(models.Model):
             content = render_to_string('_blast.html', {
                 'blast': self,
             })
-            FayeClient(fail_silently=False).publish('/blasts/all', {
+            FayeClient().publish('/blasts/all', {
                 'content': content,
             })
     

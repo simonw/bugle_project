@@ -8,18 +8,18 @@
 <body>
 <div id="body">
   <a href="/" id="bugle">
-{% comment %}    {% if not user.is_anonymous %}
+  {% if not user.is_anonymous and user.twitter_profile.profile_image %}
     <img src="/static/img/bugle-strings.gif" alt="bugle"
       width="409" height="270">
-    {% else %}{% endcomment %}
+    {% else %}
     <img src="/static/img/bugle.gif" alt="bugle"
       width="409" height="270">
-    {#{% endif %}#}
+  {% endif %}
   </a>
-{% comment %}  {% if not user.is_anonymous %}
+    {% if not user.is_anonymous and user.twitter_profile.profile_image %}
     <img src="{{ user.twitter_profile.profile_image.url }}" alt=""
           width="180" height="180" id="user">
-  {% endif %}{% endcomment %}
+  {% endif %}
   <div id="header">
     {% if not user.is_anonymous %}
       You’re logged in as <strong><a href="/{{ user }}/">{{ user }}</a></strong> <span>(</span><a href="/logout/" id="logout">log out</a><span>?)</span>

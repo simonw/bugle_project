@@ -184,6 +184,9 @@ nav p .yours {
 #blast .extended a.active {
     color:                  #a0a0a0;
 }
+#blast #attach {
+    margin-top:             8px;
+}
 #blast .attach-file {
     border-left:            1px solid #c19958;
     margin-left:            0.6em;

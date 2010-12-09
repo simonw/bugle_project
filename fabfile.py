@@ -57,6 +57,8 @@ def setup():
         sudo('pip install virtualenv-1.5.1.tar.gz')
         run('mkdir -p packages')
         run('mkdir -p releases')
+        run('mkdir -p uploads')
+        sudo('chown -R www-data:www-data uploads')
 
 def version(version):
     env.version = version
@@ -83,6 +85,10 @@ def deploy():
         if exists('releases/current'):
             run('mv releases/current releases/previous')
         run('ln -s %s releases/current' % env.version_path)
+
+        # Install virtualenv
+        sudo('cp %(version_path)s/%(project_name)s/configs/live/virtualhosts/bugle /etc/apache2/sites-available/')
+        sudo('a2ensite bugle')
     
         run('rm -f %(version_path)s/%(project_name)s/static/admin' % env)
         run('ln -s %(version_path)s/%(project_name)s_ve/lib/python2.5/site-packages/django/contrib/admin/media %(version_path)s/%(project_name)s/static/admin' % env)

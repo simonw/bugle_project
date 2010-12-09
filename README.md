@@ -30,18 +30,18 @@ Bugle is released under a BSD license.
 Development installation
 ------------------------
 
-Fabric is required::
+Fabric is required:
     
     $ sudo easy_install fabric
 
-To set up a development environment::
+To set up a development environment:
 
     $ mysql -u root
     mysql> create database bugle default charset = "utf8";
     mysql> exit
     $ fab localhost setup_dev syncdb_migrate
 
-If ``requirements.txt`` gets updated in the future, you may need to run::
+If ``requirements.txt`` gets updated in the future, you may need to run:
 
     $ fab localhost install_requirements
 
@@ -65,14 +65,14 @@ Create MySQL database ``bugle`` and an SSL certificate:
     $ make-ssl-cert generate-default-snakeoil --force-overwrite
     $ a2enmod ssl
 
-Set up the deployment environment::
+Set up the deployment environment:
 
     $ fab live setup
 
 Deployment
 ----------
 
-To deploy new versions::
+To deploy new versions:
 
     $ fab live create_version deploy
 

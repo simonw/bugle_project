@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+    ServerName twitter.com
+    ServerAlias api.twitter.com
+    WSGIPassAuthorization On
+    WSGIScriptAlias / /home/bugle/bugle_project/bugle_project/configs/live/bugle.wsgi
+        ErrorLog /var/log/apache2/bugle-error.log
+        CustomLog /var/log/apache2/bugle-access.log combined
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+    ServerName twitter.com  
+    ServerAlias api.twitter.com
+    WSGIPassAuthorization On
+    WSGIScriptAlias / /home/bugle/bugle_project/bugle_project/configs/live/bugle.wsgi
+    ErrorLog /var/log/apache2/bugle-error.log
+    CustomLog /var/log/apache2/bugle-access.log combined
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
+    SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+    BrowserMatch ".*MSIE.*" \
+            nokeepalive ssl-unclean-shutdown \
+            downgrade-1.0 force-response-1.0
+</VirtualHost>
+</IfModule>
+

@@ -153,13 +153,6 @@ class Blast(models.Model):
         return u'%s at %s' % (self.user, self.created)
 
 
-class ProfileImage(models.Model):
-    name = models.CharField(max_length=255)
-    profile_image = models.ImageField(upload_to='profile-images/')
-    
-    def __unicode__(self):
-        return self.name
-
 class ImageUpload(models.Model):
     """Holds images uploaded via the iPhone client's image attachment feature"""
 

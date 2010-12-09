@@ -21,6 +21,8 @@ in a Scottish castle.
 Server-side code is by Simon Willison, and the parts of the CSS that don't 
 suck are by Natalie Downe (Simon's butchered it a bit since then).
 
+Awesome/Evil Twitter API imitation by Ben Firshman.
+
 Bugle isn't secure (vulnerable to CSRF) and probably doesn't scale.
 
 Bugle is released under a BSD license.

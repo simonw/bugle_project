@@ -43,8 +43,8 @@ def test():
     management_command('test --noinput')
 
 def syncdb_migrate():
-    management_command('syncdb')
-    management_command('migrate')
+    management_command('syncdb --noinput')
+    management_command('migrate --noinput')
 
 @runs_once
 def setup():

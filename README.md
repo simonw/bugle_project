@@ -39,7 +39,10 @@ To set up a development environment:
     $ mysql -u root
     mysql> create database bugle default charset = "utf8";
     mysql> exit
-    $ fab localhost setup_dev syncdb_migrate
+    $ fab localhost setup_dev 
+    $ cd bugle_project/
+    $ ./manage.py syncdb
+    $ ./manage.py migrate
 
 If ``requirements.txt`` gets updated in the future, you may need to run:
 
@@ -104,9 +107,6 @@ Add to ``/etc/bind/named.conf.local``:
     zone "twitter.com." {
             type master;
             file "/etc/bind/db.twitter.com";
-            allow-transfer {
-                    forts;
-            };
     };
 
 

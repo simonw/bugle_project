@@ -17,7 +17,7 @@ class PostTest(TestCase):
             'in_reply_to': b1.pk
         })
         self.assertRedirects(res, '/')
-        b2 = Blast.objects.all()[1]
+        b2 = Blast.objects.order_by('-created')[0]
         self.assertNotEqual(b1, b2)
         self.assertEqual(b1.user, u)
         self.assertEqual(b2.user, u)
